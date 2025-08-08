@@ -1,0 +1,769 @@
+﻿@using Migfer_Kariyer.Entities
+@model List<Instructor>
+@{
+    ViewData["Title"] = "Eğitmen Listesi";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px 20px;
+        margin: 20px 30px;
+        border-radius: 8px;
+        border: 1px solid #c3e6cb;
+        font-weight: 500;
+    }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px 20px;
+        margin: 20px 30px;
+        border-radius: 8px;
+        border: 1px solid #f5c6cb;
+        font-weight: 500;
+    }
+
+    .instructor-name {
+        font-weight: bold;
+        color: #2c3e50;
+        font-size: 18px;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+        border-radius: 8px;
+        border-left: 4px solid #6f42c1;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    .instructor-icon {
+        font-size: 28px;
+        text-align: center;
+        padding: 12px;
+        background: linear-gradient(135deg, #6f42c1, #563d7c);
+        border-radius: 50%;
+        display: inline-block;
+        min-width: 55px;
+        color: white;
+        box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+        margin-right: 10px;
+    }
+
+    .instructor-info {
+        font-size: 14px;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    .experience-badge {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        margin-right: 5px;
+    }
+
+    .student-count {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .status-active {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+
+    .status-inactive {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+    }
+
+    .specializations {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+    }
+
+    .specialization-tag {
+        background: linear-gradient(135deg, #6f42c1, #563d7c);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        box-shadow: 0 2px 6px rgba(111, 66, 193, 0.2);
+    }
+
+    .education-count {
+        background: linear-gradient(135deg, #fd7e14, #e55347);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        display: inline-block;
+        box-shadow: 0 2px 10px rgba(253, 126, 20, 0.3);
+    }
+
+    .contact-info {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    .phone-number {
+        background: rgba(111, 66, 193, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .email-address {
+        background: rgba(0, 123, 255, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+    }
+
+    .status-toggle-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .status-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+    /* SADECE SweetAlert için modern stiller */
+    .swal2-popup {
+        border-radius: 20px !important;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        padding: 2.5em !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    .swal2-title {
+        font-size: 26px !important;
+        font-weight: 700 !important;
+        margin-bottom: 25px !important;
+        color: #2d3436 !important;
+    }
+
+    .swal2-html-container {
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        color: #636e72 !important;
+        margin: 20px 0 !important;
+    }
+
+    .swal2-confirm {
+        background: linear-gradient(135deg, #00b894, #00cec9) !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 14px 32px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+
+        .swal2-confirm:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 35px rgba(0, 184, 148, 0.4) !important;
+        }
+
+    .swal2-cancel {
+        background: linear-gradient(135deg, #636e72, #495057) !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 14px 32px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 8px 25px rgba(99, 110, 114, 0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+
+        .swal2-cancel:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 35px rgba(99, 110, 114, 0.4) !important;
+        }
+
+    .swal2-icon {
+        margin: 25px auto !important;
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .delete-confirm .swal2-confirm {
+        background: linear-gradient(135deg, #e17055, #d63031) !important;
+        box-shadow: 0 8px 25px rgba(225, 112, 85, 0.3) !important;
+    }
+
+        .delete-confirm .swal2-confirm:hover {
+            box-shadow: 0 12px 35px rgba(225, 112, 85, 0.4) !important;
+        }
+
+    .swal2-loader {
+        border-color: #00b894 transparent #00b894 transparent !important;
+    }
+
+    @@keyframes modernFadeIn {
+        0%
+
+    {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    }
+
+    .modern-animation {
+        animation: modernFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+
+    /* Ripple efekti için CSS */
+    .action-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+    }
+
+    @@keyframes ripple-animation {
+        to
+
+    {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    }
+
+    /* Responsive tasarım */
+    @@media (max-width: 768px) {
+        .data-table table
+
+    {
+        font-size: 14px;
+    }
+
+    .instructor-name {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    .instructor-icon {
+        font-size: 24px;
+        min-width: 45px;
+    }
+
+    .action-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .swal2-popup {
+        width: 90% !important;
+        padding: 1.5em !important;
+    }
+
+    }
+
+    @@media (max-width: 480px) {
+        .table-header
+
+    {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .add-btn {
+        align-self: center;
+    }
+
+    }
+
+    /* Print stilleri */
+    @@media print {
+        .action-btn
+
+    {
+        display: none;
+    }
+
+    .table-header .add-btn {
+        display: none;
+    }
+
+    .success-message,
+    .error-message {
+        display: none;
+    }
+
+    }
+</style>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Instructor Table -->
+<div class="data-table">
+    <div class="table-header">
+        <div class="table-title">👨‍🏫 Eğitmen Yönetimi</div>
+        <a asp-action="Create" class="add-btn">+ Yeni Eğitmen Ekle</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-message">
+            ✅ @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="error-message">
+            ❌ @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Eğitmen Bilgileri</th>
+                    <th>İletişim</th>
+                    <th>Deneyim & Öğrenci</th>
+                    <th>Uzmanlık Alanları</th>
+                    <th>Eğitim Sayısı</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var instructor in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="instructor-icon">👨‍🏫</div>
+                            @instructor.InstructorId
+                        </td>
+                        <td>
+                            <div class="instructor-name">
+                                @instructor.NameSurname
+                            </div>
+                            <div class="instructor-info">
+                                Eğitmen Profili
+                            </div>
+                        </td>
+                        <td>
+                            <div class="contact-info">
+                                @if (!string.IsNullOrEmpty(instructor.PhoneNumber))
+                                {
+                                    <div class="phone-number">📞 @instructor.PhoneNumber</div>
+                                }
+                                @if (!string.IsNullOrEmpty(instructor.Email))
+                                {
+                                    <div class="email-address">📧 @instructor.Email</div>
+                                }
+                                @if (string.IsNullOrEmpty(instructor.PhoneNumber) && string.IsNullOrEmpty(instructor.Email))
+                                {
+                                    <span style="color: #6c757d; font-style: italic;">İletişim bilgisi yok</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(instructor.Experience))
+                            {
+                                <div class="experience-badge">
+                                    💼 @instructor.Experience
+                                </div>
+                            }
+                            <br />
+                            @if (!string.IsNullOrEmpty(instructor.StudentCount))
+                            {
+                                <div class="student-count">
+                                    👨‍🎓 @instructor.StudentCount
+                                </div>
+                            }
+                            @if (string.IsNullOrEmpty(instructor.Experience) && string.IsNullOrEmpty(instructor.StudentCount))
+                            {
+                                <span style="color: #6c757d; font-style: italic;">Bilgi yok</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="specializations">
+                                @if (instructor.InstructorFieldofSpecializations.Any())
+                                {
+                                    @foreach (var spec in instructor.InstructorFieldofSpecializations)
+                                    {
+                                        <span class="specialization-tag">
+                                            🎯 @spec.FieldofSpecialization?.Name
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span style="color: #6c757d; font-style: italic;">Uzmanlık alanı belirtilmemiş</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <div class="education-count">
+                                📚 @instructor.Educations.Count Eğitim
+                            </div>
+                            <div style="font-size: 11px; color: #6c757d; margin-top: 5px;">
+                                @if (instructor.Educations.Any())
+                                {
+                                    <span>Aktif eğitimler mevcut</span>
+                                }
+                                else
+                                {
+                                    <span>Henüz eğitim vermiyor</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <button class="status-toggle-btn" onclick="toggleStatus(@instructor.InstructorId, '@instructor.NameSurname', @instructor.IsActive.ToString().ToLower())">
+                                @if (instructor.IsActive)
+                                {
+                                    <div class="status-badge status-active">✅ Aktif</div>
+                                }
+                                else
+                                {
+                                    <div class="status-badge status-inactive">❌ Pasif</div>
+                                }
+                            </button>
+                            <div style="font-size: 11px; color: #6c757d; margin-top: 5px;">
+                                Durumu değiştirmek için tıklayın
+                            </div>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@instructor.InstructorId" class="action-btn view-btn">Görüntüle</a>
+                            <a asp-action="Edit" asp-route-id="@instructor.InstructorId" class="action-btn edit-btn">Düzenle</a>
+                            @if (!instructor.Educations.Any())
+                            {
+                                <button onclick="confirmDelete(@instructor.InstructorId, '@instructor.NameSurname')" class="action-btn delete-btn">Sil</button>
+                            }
+                            else
+                            {
+                                <button onclick="showUsageWarning('@instructor.NameSurname', @instructor.Educations.Count)" class="action-btn delete-btn" style="opacity: 0.5; cursor: not-allowed;">Sil</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <h4>👨‍🏫 Henüz eğitmen eklenmemiş</h4>
+            <p>İlk eğitmeninizi eklemek için aşağıdaki butona tıklayın.</p>
+            <a asp-action="Create" class="add-btn">👨‍🏫 İlk Eğitmeni Ekle</a>
+        </div>
+    }
+</div>
+
+<!-- Gizli Delete Formu -->
+<form id="deleteForm" method="post" style="display: none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<!-- Gizli Status Toggle Formu -->
+<form id="statusForm" method="post" style="display: none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<script>
+    function showUsageWarning(instructorName, educationCount) {
+        Swal.fire({
+            title: '⚠️ Silme İşlemi Engellenedi',
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 20px; color: #e17055; font-weight: 600; margin-bottom: 20px;">
+                        <strong>"${instructorName}"</strong> eğitmeni silinemez!
+                    </div>
+                    <div style="font-size: 16px; color: #636e72; margin-bottom: 15px; line-height: 1.5;">
+                        Bu eğitmen şu anda <strong>${educationCount} eğitim</strong> veriyor.
+                    </div>
+                    <div style="font-size: 14px; color: #17a2b8; background: linear-gradient(135deg, rgba(23, 162, 184, 0.1), rgba(23, 162, 184, 0.05)); padding: 15px 20px; border-radius: 12px; margin-top: 20px; border-left: 4px solid #17a2b8;">
+                        💡 Önce o eğitimleri başka eğitmene atayın veya silin, sonra bu eğitmeni silebilirsiniz.
+                    </div>
+                </div>
+            `,
+            icon: 'warning',
+            confirmButtonText: '👌 Anladım',
+            confirmButtonColor: '#17a2b8',
+            width: '580px',
+            padding: '2.5em',
+            showClass: {
+                popup: 'modern-animation'
+            },
+            customClass: {
+                popup: 'delete-confirm'
+            }
+        });
+    }
+
+    function confirmDelete(instructorId, instructorName) {
+        Swal.fire({
+            title: '🗑️ Eğitmen Silme Onayı',
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 22px; color: #2d3436; font-weight: 600; margin-bottom: 20px;">
+                        <strong style="color: #e17055;">"${instructorName}"</strong>
+                    </div>
+                    <div style="font-size: 16px; color: #636e72; margin-bottom: 15px; line-height: 1.5;">
+                        Bu eğitmeni kalıcı olarak silmek istediğinizden emin misiniz?
+                    </div>
+                    <div style="font-size: 14px; color: #e17055; background: linear-gradient(135deg, rgba(225, 112, 85, 0.1), rgba(225, 112, 85, 0.05)); padding: 15px 20px; border-radius: 12px; margin-top: 20px; border-left: 4px solid #e17055;">
+                        ⚠️ Bu işlem geri alınamaz!
+                    </div>
+                </div>
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e17055',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: '🗑️ Evet, Sil!',
+            cancelButtonText: '🛡️ Vazgeç',
+            reverseButtons: true,
+            focusCancel: true,
+            width: '520px',
+            padding: '2.5em',
+            showClass: {
+                popup: 'modern-animation'
+            },
+            customClass: {
+                popup: 'delete-confirm'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: '🔄 Siliniyor...',
+                    html: `
+                        <div style="text-align: center; padding: 25px;">
+                            <div style="font-size: 18px; color: #74b9ff; font-weight: 500; margin-bottom: 15px;">
+                                Eğitmen silme işlemi gerçekleştiriliyor...
+                            </div>
+                            <div style="font-size: 14px; color: #636e72; opacity: 0.8;">
+                                Lütfen bekleyiniz...
+                            </div>
+                        </div>
+                    `,
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    width: '480px',
+                    showClass: {
+                        popup: 'modern-animation'
+                    },
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Form gönderimi
+                const form = document.getElementById('deleteForm');
+                form.action = `/AdminInstructor/Delete/${instructorId}`;
+                form.submit();
+            }
+        });
+    }
+
+    function toggleStatus(instructorId, instructorName, currentStatus) {
+        const newStatus = currentStatus ? 'pasif' : 'aktif';
+        const statusColor = currentStatus ? '#6c757d' : '#28a745';
+        const statusIcon = currentStatus ? '❌' : '✅';
+
+        Swal.fire({
+            title: `${statusIcon} Durum Değiştir`,
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 20px; color: #2d3436; font-weight: 600; margin-bottom: 20px;">
+                        <strong>"${instructorName}"</strong>
+                    </div>
+                    <div style="font-size: 16px; color: #636e72; margin-bottom: 15px; line-height: 1.5;">
+                        Bu eğitmenin durumunu <strong style="color: ${statusColor};">${newStatus}</strong> yapmak istediğinizden emin misiniz?
+                    </div>
+                    <div style="font-size: 14px; color: ${statusColor}; background: linear-gradient(135deg, rgba(${currentStatus ? '108, 117, 125' : '40, 167, 69'}, 0.1), rgba(${currentStatus ? '108, 117, 125' : '40, 167, 69'}, 0.05)); padding: 15px 20px; border-radius: 12px; margin-top: 20px; border-left: 4px solid ${statusColor};">
+                        💡 ${currentStatus ? 'Pasif eğitmenler sisteme giriş yapamaz' : 'Aktif eğitmenler sisteme giriş yapabilir'}
+                    </div>
+                </div>
+            `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: statusColor,
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: `${statusIcon} ${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)} Yap`,
+            cancelButtonText: '🛡️ Vazgeç',
+            reverseButtons: true,
+            width: '520px',
+            padding: '2.5em',
+            showClass: {
+                popup: 'modern-animation'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Form gönderimi
+                const form = document.getElementById('statusForm');
+                form.action = `/AdminInstructor/ToggleStatus/${instructorId}`;
+                form.submit();
+            }
+        });
+    }
+
+    // Sayfa yüklendikinde başarı/hata mesajlarını göster
+    document.addEventListener('DOMContentLoaded', function() {
+        @if (TempData["SuccessMessage"] != null)
+        {
+                <text>
+                Swal.fire({
+                    title: '🎉 İşlem Başarılı!',
+                    html: `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 20px; color: #00b894; font-weight: 600; margin-bottom: 15px;">
+                                @TempData["SuccessMessage"]
+                            </div>
+                            <div style="font-size: 15px; color: #636e72; opacity: 0.9; line-height: 1.5;">
+                                İşleminiz başarıyla tamamlandı.
+                            </div>
+                            <div style="font-size: 13px; color: #00b894; margin-top: 15px; padding: 10px; background: rgba(0, 184, 148, 0.1); border-radius: 8px;">
+                                ✨ Değişiklikler kaydedildi
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonText: '🎯 Tamam!',
+                    confirmButtonColor: '#00b894',
+                    width: '520px',
+                    padding: '2.5em',
+                    showClass: {
+                        popup: 'modern-animation'
+                    },
+                    timer: 4000,
+                    timerProgressBar: true
+                });
+                </text>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+                <text>
+                Swal.fire({
+                    title: '🚨 Bir Hata Oluştu!',
+                    html: `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 20px; color: #e17055; font-weight: 600; margin-bottom: 15px;">
+                                @TempData["ErrorMessage"]
+                            </div>
+                            <div style="font-size: 15px; color: #636e72; opacity: 0.9; line-height: 1.5; margin-bottom: 15px;">
+                                İşlem gerçekleştirilemedi. Lütfen tekrar deneyiniz.
+                            </div>
+                            <div style="font-size: 13px; color: #e17055; padding: 12px; background: rgba(225, 112, 85, 0.1); border-radius: 8px; border-left: 3px solid #e17055;">
+                                💡 Sorun devam ederse destek alın
+                            </div>
+                        </div>
+                    `,
+                    icon: 'error',
+                    confirmButtonText: '🔄 Tamam',
+                    confirmButtonColor: '#e17055',
+                    width: '520px',
+                    padding: '2.5em',
+                    showClass: {
+                        popup: 'modern-animation'
+                    }
+                });
+                </text>
+        }
+
+        // Tablo satırları için hover efekti
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+                this.style.transition = 'all 0.3s ease';
+                this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
+            });
+
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Buton animasyonları
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!this.disabled && this.style.cursor !== 'not-allowed') {
+                    // Ripple efekti
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+        });
+    });
+</script>
