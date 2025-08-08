@@ -1,0 +1,453 @@
+﻿@model Migfer_Kariyer.Entities.Feature
+@{
+    ViewData["Title"] = "Özellik Düzenle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Özellik Düzenle</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid #6f42c1;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #6f42c1;
+        }
+
+        to {
+            box-shadow: 0 0 20px #6f42c1;
+        }
+
+        }
+
+        .info-box strong {
+            color: #6f42c1;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .current-info {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #ffaa00;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+            .current-info strong {
+                color: #ffaa00;
+            }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder {
+            color: #cccccc;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #ffaa00;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ffaa00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .character-counter {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: rgba(255, 165, 0, 0.8);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .examples-box {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid #6f42c1;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .example-item {
+            display: inline-block;
+            background: rgba(111, 66, 193, 0.2);
+            color: #fff;
+            padding: 5px 12px;
+            margin: 3px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .example-item:hover {
+                background: rgba(111, 66, 193, 0.4);
+                transform: scale(1.05);
+            }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Özellik Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>✏️ ÖZELLİK DÜZENLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 DÜZENLEME MODU:</strong>
+            <ul>
+                <li><strong>Mevcut Özellik:</strong> "@Model.Name"</li>
+                <li><strong>Kullanım Durumu:</strong> @(Model.Educations.Count > 0 ? $"{Model.Educations.Count} eğitim tarafından kullanılıyor" : "Henüz kullanılmıyor")</li>
+                <li><small>Özellik adını değiştirerek güncelleyebilirsiniz.</small></li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Temel Bilgiler -->
+            <div class="form-section">
+                <div class="section-title">⭐ ÖZELLİK BİLGİLERİ</div>
+
+                <div class="current-info">
+                    <strong>📊 Mevcut Durum:</strong> Bu özellik şu anda "<strong>@Model.Name</strong>" adıyla kayıtlıdır.
+                    @if (Model.Educations.Count > 0)
+                    {
+                        <br>
+                    
+                        <small><strong>@Model.Educations.Count eğitim</strong> bu özelliği kullanıyor. Adı değiştirirseniz, o eğitimlerde de güncellenecektir.</small>
+                    }
+                    else
+                    {
+                        <br>
+                    
+                        <small>Henüz hiçbir eğitim bu özelliği kullanmıyor.</small>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Name">📝 Özellik Adı</label>
+                    <input asp-for="Name" placeholder="Özellik adını girin (max 30 karakter)" maxlength="30" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="help-text">Eğitimlerde kullanılacak özellik adı</div>
+                    <div class="character-counter" id="nameCounter">0/30</div>
+
+                    <div class="examples-box">
+                        <strong>💡 Örnek Özellikler (tıklayarak seçin):</strong><br>
+                        <span class="example-item" onclick="setExample('Sertifikalı')">Sertifikalı</span>
+                        <span class="example-item" onclick="setExample('Online')">Online</span>
+                        <span class="example-item" onclick="setExample('Uygulamalı')">Uygulamalı</span>
+                        <span class="example-item" onclick="setExample('Canlı Ders')">Canlı Ders</span>
+                        <span class="example-item" onclick="setExample('Video Tabanlı')">Video Tabanlı</span>
+                        <span class="example-item" onclick="setExample('Interaktif')">Interaktif</span>
+                        <span class="example-item" onclick="setExample('Başlangıç')">Başlangıç</span>
+                        <span class="example-item" onclick="setExample('Orta Seviye')">Orta Seviye</span>
+                        <span class="example-item" onclick="setExample('İleri Seviye')">İleri Seviye</span>
+                        <span class="example-item" onclick="setExample('Ücretsiz')">Ücretsiz</span>
+                        <span class="example-item" onclick="setExample('Premium')">Premium</span>
+                        <span class="example-item" onclick="setExample('Popüler')">Popüler</span>
+                        <span class="example-item" onclick="setExample('Yeni')">Yeni</span>
+                        <span class="example-item" onclick="setExample('Bestseller')">Bestseller</span>
+                        <span class="example-item" onclick="setExample('Pratik')">Pratik</span>
+                        <span class="example-item" onclick="setExample('Hızlı')">Hızlı</span>
+                        <span class="example-item" onclick="setExample('Kapsamlı')">Kapsamlı</span>
+                        <span class="example-item" onclick="setExample('Mentörlü')">Mentörlü</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 GÜNCELLE</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Örnek seçme fonksiyonu
+        function setExample(exampleText) {
+            document.querySelector('input[name="Name"]').value = exampleText;
+            document.querySelector('input[name="Name"]').focus();
+            updateCharCounter('nameCounter', exampleText.length, 30);
+
+            // Seçilen örneği vurgula
+            document.querySelectorAll('.example-item').forEach(el => el.style.background = 'rgba(111, 66, 193, 0.2)');
+            event.target.style.background = 'rgba(111, 66, 193, 0.6)';
+        }
+
+        // Karakter sayacı güncelleme
+        function updateCharCounter(counterId, currentLength, maxLength) {
+            const counter = document.getElementById(counterId);
+            if (counter) {
+                counter.textContent = `${currentLength}/${maxLength}`;
+
+                if (currentLength > maxLength * 0.9) {
+                    counter.style.backgroundColor = 'rgba(255, 64, 64, 0.8)';
+                } else if (currentLength > maxLength * 0.7) {
+                    counter.style.backgroundColor = 'rgba(255, 165, 0, 0.8)';
+                } else {
+                    counter.style.backgroundColor = 'rgba(255, 165, 0, 0.8)';
+                }
+            }
+        }
+
+        // Karakter sayacı setup
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.querySelector('input[name="Name"]');
+            nameInput.addEventListener('input', function() {
+                updateCharCounter('nameCounter', this.value.length, 30);
+            });
+
+            // İlk yükleme - mevcut değerle
+            updateCharCounter('nameCounter', nameInput.value.length, 30);
+        });
+
+        // Form validasyonu
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.querySelector('input[name="Name"]').value.trim();
+
+            if (!name) {
+                e.preventDefault();
+                alert('Özellik adı zorunludur!');
+                return false;
+            }
+
+            if (name.length > 30) {
+                e.preventDefault();
+                alert('Özellik adı 30 karakterden uzun olamaz!');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

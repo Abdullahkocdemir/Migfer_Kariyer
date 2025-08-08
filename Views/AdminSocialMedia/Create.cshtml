@@ -1,0 +1,639 @@
+﻿@model Migfer_Kariyer.Entities.SocialMedia
+@{
+    ViewData["Title"] = "Yeni Sosyal Medya Ekle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sosyal Medya Ekle</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid #6f42c1;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #6f42c1;
+        }
+
+        to {
+            box-shadow: 0 0 20px #6f42c1;
+        }
+
+        }
+
+        .info-box strong {
+            color: #6f42c1;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .platform-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+
+            .platform-section:hover {
+                background: rgba(255, 255, 255, 0.08);
+                transform: translateY(-2px);
+            }
+
+            .platform-section.facebook {
+                border-left-color: #1877f2;
+            }
+
+            .platform-section.twitter {
+                border-left-color: #1da1f2;
+            }
+
+            .platform-section.instagram {
+                border-left-color: #e4405f;
+            }
+
+            .platform-section.linkedin {
+                border-left-color: #0077b5;
+            }
+
+            .platform-section.youtube {
+                border-left-color: #ff0000;
+            }
+
+            .platform-section.discord {
+                border-left-color: #7289da;
+            }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 12px;
+        }
+
+        .platform-icon {
+            font-size: 2rem;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+            .platform-icon.facebook {
+                background: linear-gradient(135deg, #1877f2, #0e4085);
+            }
+
+            .platform-icon.twitter {
+                background: linear-gradient(135deg, #1da1f2, #0d8bd1);
+            }
+
+            .platform-icon.instagram {
+                background: linear-gradient(135deg, #e4405f, #833ab4);
+            }
+
+            .platform-icon.linkedin {
+                background: linear-gradient(135deg, #0077b5, #005885);
+            }
+
+            .platform-icon.youtube {
+                background: linear-gradient(135deg, #ff0000, #cc0000);
+            }
+
+            .platform-icon.discord {
+                background: linear-gradient(135deg, #7289da, #5865f2);
+            }
+
+        .platform-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 14px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder {
+            color: #cccccc;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #6f42c1, #563d7c);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #6f42c1;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 11px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #6f42c1;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .character-counter {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: rgba(111, 66, 193, 0.8);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .examples-box {
+            background: rgba(111, 66, 193, 0.1);
+            border: 1px solid #6f42c1;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .example-url {
+            display: block;
+            background: rgba(111, 66, 193, 0.2);
+            color: #fff;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+            .example-url:hover {
+                background: rgba(111, 66, 193, 0.4);
+                transform: scale(1.02);
+            }
+
+        @@media (max-width: 768px) {
+            .form-grid
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        .container {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Sosyal Medya Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>🌐 YENİ SOSYAL MEDYA EKLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 KULLANIM REHBERİ:</strong>
+            <ul>
+                <li><strong>Sosyal Medya URL'leri:</strong> Her platform için tam URL adresi girin</li>
+                <li><strong>Örnek Format:</strong> https://facebook.com/sirketadi, https://twitter.com/sirketadi</li>
+                <li><strong>Opsiyonel:</strong> Boş bırakabileceğiniz alanlar var</li>
+                <li><strong>Karakter Limiti:</strong> Her URL maksimum 200 karakter olabilir</li>
+                <li><strong>Not:</strong> Geçerli URL formatında girmeniz önemlidir</li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Create" method="post">
+            <!-- Sosyal Medya Platformları -->
+            <div class="form-grid">
+                <!-- Facebook -->
+                <div class="platform-section facebook">
+                    <div class="platform-header">
+                        <div class="platform-icon facebook">📘</div>
+                        <div class="platform-title">FACEBOOK</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FacebookUrl">📘 Facebook URL</label>
+                        <input asp-for="FacebookUrl" type="url" placeholder="https://facebook.com/sirketadi" maxlength="200" />
+                        <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                        <div class="help-text">Facebook sayfanızın tam URL adresi</div>
+                        <div class="character-counter" id="facebookCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('FacebookUrl', 'https://facebook.com/sirketadi')">https://facebook.com/sirketadi</span>
+                            <span class="example-url" onclick="setExample('FacebookUrl', 'https://www.facebook.com/migferkariyer')">https://www.facebook.com/migferkariyer</span>
+                            <span class="example-url" onclick="setExample('FacebookUrl', 'https://facebook.com/pages/sirket-adi/123456789')">https://facebook.com/pages/sirket-adi/123456789</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Twitter -->
+                <div class="platform-section twitter">
+                    <div class="platform-header">
+                        <div class="platform-icon twitter">🐦</div>
+                        <div class="platform-title">TWITTER</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TwitterUrl">🐦 Twitter URL</label>
+                        <input asp-for="TwitterUrl" type="url" placeholder="https://twitter.com/sirketadi" maxlength="200" />
+                        <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+                        <div class="help-text">Twitter profilinizin tam URL adresi</div>
+                        <div class="character-counter" id="twitterCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('TwitterUrl', 'https://twitter.com/sirketadi')">https://twitter.com/sirketadi</span>
+                            <span class="example-url" onclick="setExample('TwitterUrl', 'https://www.twitter.com/migferkariyer')">https://www.twitter.com/migferkariyer</span>
+                            <span class="example-url" onclick="setExample('TwitterUrl', 'https://x.com/sirketadi')">https://x.com/sirketadi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instagram -->
+                <div class="platform-section instagram">
+                    <div class="platform-header">
+                        <div class="platform-icon instagram">📸</div>
+                        <div class="platform-title">INSTAGRAM</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="InstagramUrl">📸 Instagram URL</label>
+                        <input asp-for="InstagramUrl" type="url" placeholder="https://instagram.com/sirketadi" maxlength="200" />
+                        <span asp-validation-for="InstagramUrl" class="text-danger"></span>
+                        <div class="help-text">Instagram profilinizin tam URL adresi</div>
+                        <div class="character-counter" id="instagramCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('InstagramUrl', 'https://instagram.com/sirketadi')">https://instagram.com/sirketadi</span>
+                            <span class="example-url" onclick="setExample('InstagramUrl', 'https://www.instagram.com/migferkariyer')">https://www.instagram.com/migferkariyer</span>
+                            <span class="example-url" onclick="setExample('InstagramUrl', 'https://instagram.com/sirket.adi')">https://instagram.com/sirket.adi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LinkedIn -->
+                <div class="platform-section linkedin">
+                    <div class="platform-header">
+                        <div class="platform-icon linkedin">💼</div>
+                        <div class="platform-title">LINKEDIN</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LinkedinUrl">💼 LinkedIn URL</label>
+                        <input asp-for="LinkedinUrl" type="url" placeholder="https://linkedin.com/company/sirketadi" maxlength="200" />
+                        <span asp-validation-for="LinkedinUrl" class="text-danger"></span>
+                        <div class="help-text">LinkedIn şirket sayfanızın tam URL adresi</div>
+                        <div class="character-counter" id="linkedinCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('LinkedinUrl', 'https://linkedin.com/company/sirketadi')">https://linkedin.com/company/sirketadi</span>
+                            <span class="example-url" onclick="setExample('LinkedinUrl', 'https://www.linkedin.com/company/migfer-kariyer')">https://www.linkedin.com/company/migfer-kariyer</span>
+                            <span class="example-url" onclick="setExample('LinkedinUrl', 'https://linkedin.com/in/kullaniciadi')">https://linkedin.com/in/kullaniciadi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YouTube -->
+                <div class="platform-section youtube">
+                    <div class="platform-header">
+                        <div class="platform-icon youtube">📺</div>
+                        <div class="platform-title">YOUTUBE</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="YoutubeUrl">📺 YouTube URL</label>
+                        <input asp-for="YoutubeUrl" type="url" placeholder="https://youtube.com/@@sirketadi" maxlength="200" />
+                        <span asp-validation-for="YoutubeUrl" class="text-danger"></span>
+                        <div class="help-text">YouTube kanalınızın tam URL adresi</div>
+                        <div class="character-counter" id="youtubeCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('YoutubeUrl', 'https://youtube.com/@@sirketadi')">https://youtube.com/@@sirketadi</span>
+                            <span class="example-url" onclick="setExample('YoutubeUrl', 'https://www.youtube.com/channel/UC123456789')">https://www.youtube.com/channel/UC123456789</span>
+                            <span class="example-url" onclick="setExample('YoutubeUrl', 'https://youtube.com/c/MigferKariyer')">https://youtube.com/c/MigferKariyer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discord -->
+                <div class="platform-section discord">
+                    <div class="platform-header">
+                        <div class="platform-icon discord">🎮</div>
+                        <div class="platform-title">DISCORD</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DiscordUrl">🎮 Discord URL</label>
+                        <input asp-for="DiscordUrl" type="url" placeholder="https://discord.gg/davetlinki" maxlength="200" />
+                        <span asp-validation-for="DiscordUrl" class="text-danger"></span>
+                        <div class="help-text">Discord sunucunuzun davet linkini</div>
+                        <div class="character-counter" id="discordCounter">0/200</div>
+
+                        <div class="examples-box">
+                            <strong>💡 Örnek URL'ler:</strong><br>
+                            <span class="example-url" onclick="setExample('DiscordUrl', 'https://discord.gg/davetlinki')">https://discord.gg/davetlinki</span>
+                            <span class="example-url" onclick="setExample('DiscordUrl', 'https://discord.com/invite/abcd1234')">https://discord.com/invite/abcd1234</span>
+                            <span class="example-url" onclick="setExample('DiscordUrl', 'https://discord.gg/migferkariyer')">https://discord.gg/migferkariyer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 KAYDET</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Örnek seçme fonksiyonu
+        function setExample(fieldName, exampleUrl) {
+            document.querySelector(`input[name="${fieldName}"]`).value = exampleUrl;
+            document.querySelector(`input[name="${fieldName}"]`).focus();
+
+            // Karakter sayacını güncelle
+            const counterMap = {
+                'FacebookUrl': 'facebookCounter',
+                'TwitterUrl': 'twitterCounter',
+                'InstagramUrl': 'instagramCounter',
+                'LinkedinUrl': 'linkedinCounter',
+                'YoutubeUrl': 'youtubeCounter',
+                'DiscordUrl': 'discordCounter'
+            };
+
+            if (counterMap[fieldName]) {
+                updateCharCounter(counterMap[fieldName], exampleUrl.length, 200);
+            }
+
+            // Seçilen örneği vurgula
+            event.target.style.background = 'rgba(111, 66, 193, 0.6)';
+            setTimeout(() => {
+                event.target.style.background = 'rgba(111, 66, 193, 0.2)';
+            }, 1000);
+        }
+
+        // Karakter sayacı güncelleme
+        function updateCharCounter(counterId, currentLength, maxLength) {
+            const counter = document.getElementById(counterId);
+            if (counter) {
+                counter.textContent = `${currentLength}/${maxLength}`;
+
+                if (currentLength > maxLength * 0.9) {
+                    counter.style.backgroundColor = 'rgba(255, 64, 64, 0.8)';
+                } else if (currentLength > maxLength * 0.7) {
+                    counter.style.backgroundColor = 'rgba(255, 165, 0, 0.8)';
+                } else {
+                    counter.style.backgroundColor = 'rgba(111, 66, 193, 0.8)';
+                }
+            }
+        }
+
+        // Karakter sayacı setup
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = [
+                { name: 'FacebookUrl', counter: 'facebookCounter' },
+                { name: 'TwitterUrl', counter: 'twitterCounter' },
+                { name: 'InstagramUrl', counter: 'instagramCounter' },
+                { name: 'LinkedinUrl', counter: 'linkedinCounter' },
+                { name: 'YoutubeUrl', counter: 'youtubeCounter' },
+                { name: 'DiscordUrl', counter: 'discordCounter' }
+            ];
+
+            inputs.forEach(input => {
+                const element = document.querySelector(`input[name="${input.name}"]`);
+                if (element) {
+                    element.addEventListener('input', function() {
+                        updateCharCounter(input.counter, this.value.length, 200);
+                    });
+
+                    // İlk yükleme
+                    updateCharCounter(input.counter, element.value.length, 200);
+                }
+            });
+        });
+
+        // Form validasyonu
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const inputs = document.querySelectorAll('input[type="url"]');
+            let hasError = false;
+
+            inputs.forEach(input => {
+                if (input.value.trim() && input.value.length > 200) {
+                    hasError = true;
+                    alert(`${input.labels[0].textContent} 200 karakterden uzun olamaz!`);
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,746 @@
+﻿@model Migfer_Kariyer.Entities.Education
+@{
+    ViewData["Title"] = "Eğitim Detayları";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 2px solid #00ffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+    }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .back-link {
+        margin-bottom: 30px;
+    }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .back-link a:hover {
+                color: #764ba2;
+                transform: translateX(-5px);
+            }
+
+    .education-hero {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+        margin-bottom: 40px;
+        align-items: start;
+    }
+
+    .photo-section {
+        position: relative;
+    }
+
+    .education-photo {
+        width: 100%;
+        max-width: 400px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .education-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+    .no-photo-placeholder {
+        width: 100%;
+        max-width: 400px;
+        height: 300px;
+        background: linear-gradient(135deg, #e9ecef, #adb5bd);
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 48px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .no-photo-text {
+        font-size: 16px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .basic-info {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: bold;
+        color: #495057;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-value {
+        flex: 2;
+        text-align: right;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .status-badges {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+        .badge.active {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .badge.inactive {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            color: white;
+        }
+
+        .badge.popular {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .badge.feature {
+            background: linear-gradient(135deg, #6f42c1, #e83e8c);
+            color: white;
+        }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .descriptions {
+        margin-bottom: 40px;
+    }
+
+    .description-section {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-left: 5px solid #667eea;
+    }
+
+    .description-title {
+        color: #2c3e50;
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .description-content {
+        color: #495057;
+        line-height: 1.8;
+        font-size: 16px;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .detail-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+    }
+
+    .card-title {
+        color: #2c3e50;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .items-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .items-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+
+            .items-list li:hover {
+                padding-left: 10px;
+                color: #667eea;
+            }
+
+            .items-list li:last-child {
+                border-bottom: none;
+            }
+
+    .item-bullet {
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        padding: 40px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        border: 2px dashed #dee2e6;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 0 10px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        }
+
+    /* Photo Modal */
+    .photo-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+        animation: fadeIn 0.3s;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .photo-modal-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+        animation: zoomIn 0.3s;
+    }
+
+    @@keyframes zoomIn {
+        from {
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        to {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    .photo-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        color: #f1f1f1;
+        font-size: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        z-index: 1001;
+    }
+
+        .photo-modal-close:hover {
+            color: #667eea;
+            text-shadow: 0 0 10px #667eea;
+        }
+
+    .photo-modal-info {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 25px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        max-width: 80%;
+    }
+
+    @@media (max-width: 768px) {
+        .education-hero {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .container {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Photo Modal -->
+<div id="photoModal" class="photo-modal">
+    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+    <img class="photo-modal-content" id="modalImg">
+    <div class="photo-modal-info" id="modalInfo"></div>
+</div>
+
+<div class="container">
+    <div class="back-link">
+        <a asp-action="Index">
+            ← Eğitim Listesine Dön
+        </a>
+    </div>
+
+    <div class="header">
+        <h1 style="color :Red">📚 @Model.Name</h1>
+    </div>
+
+    <!-- Hero Section with Photo and Basic Info -->
+    <div class="education-hero">
+        <div class="photo-section">
+            @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+            {
+                <img src="@Model.PhotoUrl"
+                     alt="@Model.Name"
+                     class="education-photo"
+                     onclick="openPhotoModal('@Model.PhotoUrl', '@Html.Raw(Model.Name.Replace("'", "\\'"))')"
+                     title="Fotoğrafı büyütmek için tıklayın" />
+            }
+            else
+            {
+                <div class="no-photo-placeholder">
+                    📷
+                    <div class="no-photo-text">Fotoğraf Bulunmuyor</div>
+                </div>
+            }
+        </div>
+
+        <div class="basic-info">
+            <div class="info-row">
+                <div class="info-label">
+                    👨‍🏫 Eğitmen
+                </div>
+                <div class="info-value">
+                    @(Model.Instructor?.NameSurname ?? "Belirtilmemiş")
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    👥 Öğrenci Sayısı
+                </div>
+                <div class="info-value">
+                    @Model.StudentCount kişi
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    ⏱️ Kurs Süresi
+                </div>
+                <div class="info-value">
+                    @Model.CourseHours saat
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    🌐 Dil
+                </div>
+                <div class="info-value">
+                    @Model.Language
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    🏷️ Durumlar
+                </div>
+                <div class="info-value">
+                    <div class="status-badges">
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge active">✅ Aktif</span>
+                        }
+                        else
+                        {
+                            <span class="badge inactive">❌ Pasif</span>
+                        }
+
+                        @if (Model.IsPopularCourse)
+                        {
+                            <span class="badge popular">🔥 Popüler</span>
+                        }
+
+                        @if (Model.Feature != null)
+                        {
+                            <span class="badge feature">⭐ @Model.Feature.Name</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Descriptions -->
+    <div class="descriptions">
+        @if (!string.IsNullOrEmpty(Model.ShortDescription))
+        {
+            <div class="description-section">
+                <div class="description-title">
+                    📝 Kısa Açıklama
+                </div>
+                <div class="description-content">
+                    @Model.ShortDescription
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="description-section">
+                <div class="description-title">
+                    📖 Detaylı Açıklama
+                </div>
+                <div class="description-content">
+                    @Model.Description
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+        <!-- Neler Öğreneceksiniz -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Neler Öğreneceksiniz</div>
+            </div>
+            @if (Model.WhatYouWillLearns != null && Model.WhatYouWillLearns.Any())
+            {
+                <ul class="items-list">
+                    @foreach (var item in Model.WhatYouWillLearns)
+                    {
+                        <li>
+                            <span class="item-bullet"></span>
+                            @item.Title
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="empty-state">
+                    Henüz öğrenme hedefi eklenmemiş
+                </div>
+            }
+        </div>
+
+        <!-- Gereksinimler -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">✅</div>
+                <div class="card-title">Gereksinimler</div>
+            </div>
+            @if (Model.Requirements != null && Model.Requirements.Any())
+            {
+                <ul class="items-list">
+                    @foreach (var item in Model.Requirements)
+                    {
+                        <li>
+                            <span class="item-bullet"></span>
+                            @item.Title
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="empty-state">
+                    Henüz gereksinim eklenmemiş
+                </div>
+            }
+        </div>
+
+        <!-- Kurs İçerikleri -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Kurs İçerikleri</div>
+            </div>
+            @if (Model.CourseContents != null && Model.CourseContents.Any())
+            {
+                <ul class="items-list">
+                    @foreach (var item in Model.CourseContents)
+                    {
+                        <li>
+                            <span class="item-bullet"></span>
+                            @item.Title
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="empty-state">
+                    Henüz kurs içeriği eklenmemiş
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            ✏️ Düzenle
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            📋 Listeye Dön
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+           onclick="return confirm('Bu eğitimi silmek istediğinizden emin misiniz?')">
+            🗑️ Sil
+        </a>
+    </div>
+</div>
+
+<script>
+    // Fotoğraf modal fonksiyonları
+    function openPhotoModal(photoUrl, educationName) {
+        const modal = document.getElementById('photoModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalInfo = document.getElementById('modalInfo');
+
+        modal.style.display = 'block';
+        modalImg.src = photoUrl;
+        modalInfo.innerHTML = `
+            <strong style="font-size: 1.2em;">${educationName}</strong><br>
+            <small>Fotoğrafı kapatmak için ESC tuşuna basın veya dışına tıklayın</small>
+        `;
+
+        // Body scroll'unu engelle
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePhotoModal() {
+        const modal = document.getElementById('photoModal');
+        modal.style.display = 'none';
+
+        // Body scroll'unu geri aç
+        document.body.style.overflow = 'auto';
+    }
+
+    // Modal'ı dışına tıklayınca kapat
+    window.onclick = function(event) {
+        const modal = document.getElementById('photoModal');
+        if (event.target == modal) {
+            closePhotoModal();
+        }
+    }
+
+    // ESC tuşu ile kapat
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closePhotoModal();
+        }
+    });
+
+    // Smooth scroll effect for better UX
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>

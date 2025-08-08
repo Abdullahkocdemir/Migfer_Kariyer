@@ -1,0 +1,388 @@
+﻿@model Migfer_Kariyer.Entities.AboutText
+@{
+    ViewData["Title"] = "Yeni Hakkımızda Metni Ekle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hakkımızda Metni Ekle</title>
+    <!-- TinyMCE Script'i - API Anahtarıyla -->
+    <script src="https://cdn.tiny.cloud/1/kxdltrxw6nyvs3n8gp9fi4f0f7nx0avgvpxdqs0vm95961as/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        }
+
+        .info-box strong {
+            color: #00ffff;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+            input:focus, textarea:focus, select:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            input::placeholder, textarea::placeholder {
+                color: #cccccc;
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+            .checkbox-group input[type="checkbox"] {
+                width: auto;
+                margin-right: 8px;
+            }
+
+            .checkbox-group label {
+                margin-bottom: 0;
+                color: #ffff00;
+            }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #00ffff;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ff00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* TinyMCE dark theme için özel stiller */
+        .tox-tinymce {
+            border: 1px solid #00ff00 !important;
+            border-radius: 8px !important;
+        }
+
+        .tox .tox-edit-area {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Hakkımızda Metinleri Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>📝 YENİ HAKKIMIZDA METNİ EKLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 KULLANIM REHBERİ:</strong>
+            <ul>
+                <li><strong>Başlık:</strong> Kısa ve öz bir başlık belirleyin (maksimum 30 karakter)</li>
+                <li><strong>Açıklama:</strong> Detaylı açıklamayı zengin metin editörü ile yazabilirsiniz</li>
+                <li><strong>Durum:</strong> Aktif seçilirse web sitesinde görüntülenir</li>
+                <li><strong>Kayıt:</strong> "Kaydet" butonuna basarak metninizi kaydedin</li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Create" method="post">
+            <!-- Temel Bilgiler -->
+            <div class="form-section">
+                <div class="section-title">📋 TEMEL BİLGİLER</div>
+
+                <div class="form-group">
+                    <label asp-for="Başlık">📌 Başlık</label>
+                    <input asp-for="Başlık" placeholder="Hakkımızda başlığını girin" maxlength="30" />
+                    <span asp-validation-for="Başlık" class="text-danger"></span>
+                    <div class="help-text">Maksimum 30 karakter - Örnek: Misyonumuz, Vizyonumuz</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Açıklama">📝 Açıklama</label>
+                    <textarea asp-for="Açıklama" id="aciklamaEditor" rows="8" placeholder="Hakkımızda açıklamasını buraya yazın..."></textarea>
+                    <span asp-validation-for="Açıklama" class="text-danger"></span>
+                    <div class="help-text">Web sitesinde gösterilecek açıklama metni</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input asp-for="IsActive" type="checkbox" checked />
+                        <label asp-for="IsActive">✅ Aktif</label>
+                    </div>
+                    <div class="help-text">Metin web sitesinde görünsün mü?</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 KAYDET</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // TinyMCE Editörünü başlat
+        tinymce.init({
+            selector: '#aciklamaEditor',
+            height: 400,
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            plugins: [
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons',
+                'image', 'link', 'lists', 'searchreplace', 'table',
+                'visualblocks', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            content_style: 'body { font-family:Arial,sans-serif; font-size:14px; color:#ffffff; background-color:#2a2a2a; }',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
+
+        // Karakter sınırı kontrolü
+        const baslikInput = document.querySelector('input[name="Başlık"]');
+        baslikInput.addEventListener('input', function() {
+            if (this.value.length >= 30) {
+                this.style.borderColor = '#ff4040';
+            } else {
+                this.style.borderColor = '#00ff00';
+            }
+        });
+    </script>
+</body>
+</html>

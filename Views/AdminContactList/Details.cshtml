@@ -1,0 +1,383 @@
+﻿@model Migfer_Kariyer.Entities.ContactList
+@{
+    ViewData["Title"] = "İletişim Bilgisi Detayları";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 2px solid #00ffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+    }
+
+        .header h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+    .back-link {
+        margin-bottom: 30px;
+    }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .back-link a:hover {
+                color: #764ba2;
+                transform: translateX(-5px);
+            }
+
+    .contact-preview {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border-radius: 15px;
+        padding: 40px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+    }
+
+    .contact-icon-large {
+        font-size: 5rem;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.2);
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-title-large {
+        font-size: 2.8rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .contact-description-large {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .detail-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: bold;
+        color: #495057;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .info-value {
+        flex: 2;
+        text-align: right;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 16px;
+        word-break: break-word;
+    }
+
+    .empty-value {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 14px;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 0 10px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        }
+
+    .contact-feature {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .feature-content {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    @@media (max-width: 768px) {
+        .info-row
+
+    {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .info-value {
+        text-align: left;
+    }
+
+    .container {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .contact-title-large {
+        font-size: 2.2rem;
+    }
+
+    .contact-icon-large {
+        font-size: 4rem;
+        width: 100px;
+        height: 100px;
+    }
+
+    }
+</style>
+
+<div class="container">
+    <div class="back-link">
+        <a asp-action="Index">
+            ← İletişim Bilgileri Listesine Dön
+        </a>
+    </div>
+
+    <div class="header">
+        <h1>📞 İletişim Bilgisi Detayları</h1>
+    </div>
+
+    <!-- Contact Preview -->
+    <div class="contact-preview">
+        <div class="contact-icon-large">
+            @if (!string.IsNullOrEmpty(Model.İkon))
+            {
+                @Html.Raw(Model.İkon)
+            }
+            else
+            {
+                <span>📞</span>
+            }
+        </div>
+        <div class="contact-title-large">
+            @Model.Adı
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Açıklama))
+        {
+            <div class="contact-description-large">
+                @Model.Açıklama
+            </div>
+        }
+    </div>
+
+    <!-- Contact Feature -->
+    <div class="contact-feature">
+        <div class="feature-title">📋 İletişim Türü</div>
+        <div class="feature-content">@Model.Adı</div>
+    </div>
+
+    <!-- Detailed Information -->
+    <div class="detail-card">
+        <div class="info-row">
+            <div class="info-label">
+                🆔 ID Numarası
+            </div>
+            <div class="info-value">
+                #@Model.Id
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📝 İletişim Adı
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.Adı))
+                {
+                    <strong>@Model.Adı</strong>
+                }
+                else
+                {
+                    <span class="empty-value">Ad belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📄 Açıklama
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.Açıklama))
+                {
+                    @Model.Açıklama
+                }
+                else
+                {
+                    <span class="empty-value">Açıklama belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                🎨 İkon Kodu
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.İkon))
+                {
+                    <code style="background: #f8f9fa; color: #e83e8c; padding: 4px 8px; border-radius: 4px;">@Model.İkon</code>
+                }
+                else
+                {
+                    <span class="empty-value">İkon belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📏 Karakter Uzunlukları
+            </div>
+            <div class="info-value">
+                <div style="font-size: 14px;">
+                    <div>📝 Ad: <strong>@Model.Adı.Length</strong>/30 karakter</div>
+                    <div>📄 Açıklama: <strong>@(Model.Açıklama?.Length ?? 0)</strong>/500 karakter</div>
+                    <div>🎨 İkon: <strong>@(Model.İkon?.Length ?? 0)</strong>/30 karakter</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            ✏️ Düzenle
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            📋 Listeye Dön
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+           onclick="return confirm('Bu iletişim bilgisini silmek istediğinizden emin misiniz?')">
+            🗑️ Sil
+        </a>
+    </div>
+</div>

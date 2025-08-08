@@ -1,0 +1,665 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migfer Akademi </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        /* Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            border-right: 2px solid #00ffff;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            top: 0;
+            left: 0;
+        }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #00ffff;
+        }
+
+            .sidebar-header h1 {
+                font-size: clamp(1.2rem, 3vw, 1.5rem);
+                color: #00ffff;
+                margin-bottom: 0.5rem;
+                text-shadow: 0 0 10px #00ffff;
+            }
+
+            .sidebar-header p {
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+                opacity: 0.8;
+            }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+            .menu-item:hover,
+            .menu-item.active {
+                background: rgba(0, 255, 255, 0.1);
+                border-left-color: #00ffff;
+                color: #00ffff;
+            }
+
+        .menu-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Overlay for mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .sidebar-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid #ff00ff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 998;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+            .top-bar-left h2 {
+                color: #00ffff;
+                font-size: clamp(1.2rem, 3vw, 1.5rem);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        .menu-toggle-btn {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            white-space: nowrap;
+        }
+
+            .menu-toggle-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-shrink: 0;
+        }
+
+            .user-info span {
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+                white-space: nowrap;
+            }
+
+        .user-avatar {
+            width: clamp(35px, 6vw, 45px);
+            height: clamp(35px, 6vw, 45px);
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #ff0040, #ff00ff);
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            white-space: nowrap;
+        }
+
+            .logout-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+            }
+
+        /* Content Area */
+        .content-area {
+            padding: clamp(1rem, 4vw, 2rem);
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .page-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: #00ffff;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #00ffff;
+            word-wrap: break-word;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #ff00ff;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            background: rgba(255, 0, 255, 0.1);
+            padding: 1rem;
+            border-bottom: 1px solid #ff00ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-title {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            color: #000;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            white-space: nowrap;
+        }
+
+            .add-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+            }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: clamp(0.5rem, 2vw, 1rem);
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        th {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        td {
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 0.1rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .edit-btn {
+            background: linear-gradient(45deg, #ffff00, #ff00ff);
+            color: #000;
+        }
+
+        .delete-btn {
+            background: linear-gradient(45deg, #ff0040, #ff4000);
+            color: #fff;
+        }
+
+        .view-btn {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Status */
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+            .status.active {
+                background: rgba(0, 255, 0, 0.2);
+                color: #00ff00;
+                border: 1px solid #00ff00;
+            }
+
+            .status.inactive {
+                background: rgba(255, 0, 0, 0.2);
+                color: #ff4040;
+                border: 1px solid #ff4040;
+            }
+
+            .status.pending {
+                background: rgba(255, 255, 0, 0.2);
+                color: #ffff00;
+                border: 1px solid #ffff00;
+            }
+
+        /* Desktop Styles */
+        @@media (min-width: 1025px) {
+            .main-content.shifted
+
+        {
+            margin-left: 280px;
+        }
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        }
+
+        /* Tablet Styles */
+        @@media (max-width: 1024px) and (min-width: 769px) {
+            .sidebar
+
+        {
+            width: 250px;
+        }
+
+        .content-area {
+            padding: 1.5rem;
+        }
+
+        .top-bar {
+            padding: 0.8rem 1rem;
+        }
+
+        }
+
+        /* Mobile Styles */
+        @@media (max-width: 768px) {
+            .sidebar
+
+        {
+            width: 280px;
+        }
+
+        .main-content.shifted {
+            margin-left: 0;
+        }
+
+        .top-bar {
+            padding: 0.8rem;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.8rem;
+        }
+
+        .top-bar-left {
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .user-info {
+            justify-content: center;
+            width: 100%;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table-header {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.3rem 0.6rem;
+            margin: 0.05rem;
+            font-size: 0.7rem;
+        }
+
+        }
+
+        /* Extra Small Mobile */
+        @@media (max-width: 480px) {
+            .sidebar
+
+        {
+            width: 100vw;
+        }
+
+        .content-area {
+            padding: 1rem;
+        }
+
+        .menu-toggle-btn {
+            padding: 0.6rem 1rem;
+        }
+
+        .user-info span {
+            display: none;
+        }
+
+        table {
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 0.5rem 0.3rem;
+            font-size: 0.75rem;
+        }
+
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(45deg, #ff00ff, #00ffff);
+            }
+
+        /* Smooth animations */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button, a {
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay"></div>
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>MIGFER ADMİN</h1>
+                <p>Yönetim Paneli</p>
+            </div>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <span class="menu-icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">👥</span>
+                    Öğrenciler
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">👨‍🏫</span>
+                    Eğitmenler
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">📚</span>
+                    Eğitimler
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">📋</span>
+                    Başvurular
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">⚙️</span>
+                    Ayarlar
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <button class="menu-toggle-btn">☰ Menü</button>
+                </div>
+                <div class="user-info">
+                    <span>Hoş geldin, <strong style="color: #00ffff;">Admin</strong></span>
+                    <div class="user-avatar">MA</div>
+                    <a href="#" class="logout-btn">Çıkış</a>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggleBtn = document.querySelector('.menu-toggle-btn');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+
+                // Desktop'ta içeriği kaydır
+                if (window.innerWidth > 1024) {
+                    mainContent.classList.toggle('shifted');
+                }
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                if (window.innerWidth > 1024) {
+                    mainContent.classList.remove('shifted');
+                }
+            }
+
+            menuToggleBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', closeSidebar);
+
+            // Escape tuşu ile sidebar'ı kapat
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+
+            // Pencere yeniden boyutlandırıldığında
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 1024) {
+                    overlay.classList.remove('active');
+                    if (sidebar.classList.contains('active')) {
+                        mainContent.classList.add('shifted');
+                    }
+                } else {
+                    mainContent.classList.remove('shifted');
+                }
+            });
+
+            // Touch events for better mobile experience
+            let touchStartX = 0;
+            let touchStartY = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                if (!touchStartX || !touchStartY) return;
+
+                let touchEndX = e.touches[0].clientX;
+                let touchEndY = e.touches[0].clientY;
+                let diffX = touchStartX - touchEndX;
+                let diffY = touchStartY - touchEndY;
+
+                // Swipe detection
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 50 && sidebar.classList.contains('active')) {
+                        // Swipe left to close
+                        closeSidebar();
+                    } else if (diffX < -50 && !sidebar.classList.contains('active') && touchStartX < 50) {
+                        // Swipe right from edge to open
+                        toggleSidebar();
+                    }
+                }
+
+                touchStartX = 0;
+                touchStartY = 0;
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

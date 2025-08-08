@@ -1,0 +1,939 @@
+﻿@model Migfer_Kariyer.Entities.Service
+@{
+    ViewData["Title"] = "Servis Düzenle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servis Düzenle</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        }
+
+        .info-box strong {
+            color: #00ffff;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+            input:focus, textarea:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            input::placeholder, textarea::placeholder {
+                color: #cccccc;
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .dynamic-fields-container {
+            border: 2px dashed #ff00ff;
+            border-radius: 15px;
+            padding: 25px;
+            background: rgba(255, 0, 255, 0.05);
+            min-height: 150px;
+            position: relative;
+        }
+
+        .field-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ffff00;
+            transition: all 0.3s ease;
+        }
+
+            .field-item:hover {
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
+            }
+
+        .field-input {
+            flex: 1;
+            margin-right: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+
+            .field-input:focus {
+                border-color: #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-add {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+            .btn-add:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #00ff00;
+            }
+
+        .btn-remove {
+            background: linear-gradient(45deg, #ff0040, #ff4000);
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+            .btn-remove:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px #ff0040;
+            }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #ffaa00;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .field-counter {
+            background: linear-gradient(45deg, #ffff00, #ff00ff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .no-fields-message {
+            text-align: center;
+            color: #cccccc;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px dashed #666;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ffaa00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .icon-examples {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 1px solid #00ffff;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .icon-category {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ff00ff;
+        }
+
+        .icon-category-title {
+            color: #ff00ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .icon-example {
+            display: inline-block;
+            margin: 3px;
+            padding: 8px 12px;
+            background: rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+
+            .icon-example:hover {
+                background: rgba(0, 255, 255, 0.4);
+                transform: scale(1.1);
+                border-color: #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            }
+
+        .search-icons {
+            margin-bottom: 15px;
+        }
+
+            .search-icons input {
+                width: 100%;
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid #00ffff;
+                border-radius: 8px;
+                color: #ffffff;
+                font-size: 14px;
+            }
+
+        .icon-toggle {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: #000;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+            .toggle-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px #ff00ff;
+            }
+
+        .current-info {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #ffaa00;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+            .current-info strong {
+                color: #ffaa00;
+            }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .field-item {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .field-input {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        .icon-examples {
+            max-height: 300px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Servis Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>✏️ SERVİS DÜZENLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 DÜZENLEME MODU:</strong>
+            <ul>
+                <li><strong>Mevcut Başlık:</strong> "@Model.Başlık"</li>
+                <li><strong>Mevcut Açıklama:</strong> "@(Model.Açıklama.Length > 100 ? Model.Açıklama.Substring(0, 100) + "..." : Model.Açıklama)"</li>
+                <li><strong>Mevcut İkon:</strong> @(string.IsNullOrEmpty(Model.İkon) ? "Belirtilmemiş" : Model.İkon)</li>
+                <li><strong>Mevcut Madde Sayısı:</strong> @Model.Maddelers.Count</li>
+                <li><small>Alanları değiştirerek servisi güncelleyebilirsiniz.</small></li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Temel Bilgiler -->
+            <div class="form-section">
+                <div class="section-title">🛠️ SERVİS BİLGİLERİ</div>
+
+                <div class="form-group">
+                    <label asp-for="Başlık">📝 Servis Başlığı</label>
+                    <input asp-for="Başlık" placeholder="Servis başlığını girin (max 200 karakter)" maxlength="200" />
+                    <span asp-validation-for="Başlık" class="text-danger"></span>
+                    <div class="help-text">Örnek: Web Tasarım Hizmetleri, SEO Optimizasyonu</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Açıklama">📋 Servis Açıklaması</label>
+                    <textarea asp-for="Açıklama" placeholder="Servisiniz hakkında detaylı açıklama yazın (max 1000 karakter)" maxlength="1000"></textarea>
+                    <span asp-validation-for="Açıklama" class="text-danger"></span>
+                    <div class="help-text">Servisinizin özelliklerini ve avantajlarını açıklayın</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="İkon">🎨 Servis İkonu</label>
+                    <input asp-for="İkon" placeholder="HTML ikon kodu girin (örn: 🛠️)" maxlength="200" />
+                    <span asp-validation-for="İkon" class="text-danger"></span>
+                    <div class="help-text">Unicode emoji veya HTML ikon kodu kullanabilirsiniz</div>
+
+                    <div class="icon-examples" id="iconExamples">
+                        <div class="icon-toggle">
+                            <button type="button" class="toggle-btn" onclick="toggleIconPanel()">
+                                🎨 İkon Panelini Genişlet/Daralt
+                            </button>
+                        </div>
+
+                        <div class="search-icons">
+                            <input type="text" id="iconSearch" placeholder="🔍 İkon ara..." onkeyup="filterIcons()">
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🛠️ Genel & Araçlar</div>
+                            <span class="icon-example" onclick="setIcon('🛠️')">🛠️ Genel</span>
+                            <span class="icon-example" onclick="setIcon('⚙️')">⚙️ Ayarlar</span>
+                            <span class="icon-example" onclick="setIcon('🔧')">🔧 Araçlar</span>
+                            <span class="icon-example" onclick="setIcon('🔨')">🔨 İnşaat</span>
+                            <span class="icon-example" onclick="setIcon('⚡')">⚡ Hızlı</span>
+                            <span class="icon-example" onclick="setIcon('🔩')">🔩 Teknik</span>
+                            <span class="icon-example" onclick="setIcon('⚒️')">⚒️ Onarım</span>
+                            <span class="icon-example" onclick="setIcon('🪛')">🪛 Vidalama</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">💻 Teknoloji & Yazılım</div>
+                            <span class="icon-example" onclick="setIcon('💻')">💻 Bilgisayar</span>
+                            <span class="icon-example" onclick="setIcon('📱')">📱 Mobil</span>
+                            <span class="icon-example" onclick="setIcon('🖥️')">🖥️ Desktop</span>
+                            <span class="icon-example" onclick="setIcon('💾')">💾 Veri</span>
+                            <span class="icon-example" onclick="setIcon('🌐')">🌐 Web</span>
+                            <span class="icon-example" onclick="setIcon('💡')">💡 İnovasyon</span>
+                            <span class="icon-example" onclick="setIcon('🔬')">🔬 Araştırma</span>
+                            <span class="icon-example" onclick="setIcon('🤖')">🤖 AI/Bot</span>
+                            <span class="icon-example" onclick="setIcon('⌨️')">⌨️ Programlama</span>
+                            <span class="icon-example" onclick="setIcon('🖱️')">🖱️ Interface</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🎨 Tasarım & Kreatif</div>
+                            <span class="icon-example" onclick="setIcon('🎨')">🎨 Tasarım</span>
+                            <span class="icon-example" onclick="setIcon('✏️')">✏️ Çizim</span>
+                            <span class="icon-example" onclick="setIcon('🖌️')">🖌️ Boyama</span>
+                            <span class="icon-example" onclick="setIcon('🎭')">🎭 Sanat</span>
+                            <span class="icon-example" onclick="setIcon('📐')">📐 Teknik Çizim</span>
+                            <span class="icon-example" onclick="setIcon('🖼️')">🖼️ Grafik</span>
+                            <span class="icon-example" onclick="setIcon('📷')">📷 Fotoğraf</span>
+                            <span class="icon-example" onclick="setIcon('🎬')">🎬 Video</span>
+                            <span class="icon-example" onclick="setIcon('🎪')">🎪 Eğlence</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">📊 İş & Analiz</div>
+                            <span class="icon-example" onclick="setIcon('📊')">📊 Analiz</span>
+                            <span class="icon-example" onclick="setIcon('📈')">📈 Büyüme</span>
+                            <span class="icon-example" onclick="setIcon('📉')">📉 Trend</span>
+                            <span class="icon-example" onclick="setIcon('💼')">💼 İş</span>
+                            <span class="icon-example" onclick="setIcon('💰')">💰 Finans</span>
+                            <span class="icon-example" onclick="setIcon('📋')">📋 Plan</span>
+                            <span class="icon-example" onclick="setIcon('📝')">📝 Rapor</span>
+                            <span class="icon-example" onclick="setIcon('🎯')">🎯 Hedef</span>
+                            <span class="icon-example" onclick="setIcon('📌')">📌 Önemli</span>
+                            <span class="icon-example" onclick="setIcon('⭐')">⭐ Premium</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🚀 Performans & Hız</div>
+                            <span class="icon-example" onclick="setIcon('🚀')">🚀 Performans</span>
+                            <span class="icon-example" onclick="setIcon('⚡')">⚡ Hızlı</span>
+                            <span class="icon-example" onclick="setIcon('🎪')">🎪 Boost</span>
+                            <span class="icon-example" onclick="setIcon('🔥')">🔥 Hot</span>
+                            <span class="icon-example" onclick="setIcon('💎')">💎 Premium</span>
+                            <span class="icon-example" onclick="setIcon('🏆')">🏆 Kazanç</span>
+                            <span class="icon-example" onclick="setIcon('🎖️')">🎖️ Başarı</span>
+                            <span class="icon-example" onclick="setIcon('🏅')">🏅 Mükemmel</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🔒 Güvenlik & Koruma</div>
+                            <span class="icon-example" onclick="setIcon('🔒')">🔒 Güvenlik</span>
+                            <span class="icon-example" onclick="setIcon('🛡️')">🛡️ Koruma</span>
+                            <span class="icon-example" onclick="setIcon('🔐')">🔐 Şifre</span>
+                            <span class="icon-example" onclick="setIcon('🔑')">🔑 Anahtar</span>
+                            <span class="icon-example" onclick="setIcon('👁️')">👁️ İzleme</span>
+                            <span class="icon-example" onclick="setIcon('⚠️')">⚠️ Uyarı</span>
+                            <span class="icon-example" onclick="setIcon('🚨')">🚨 Alarm</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🌟 Popüler & Trend</div>
+                            <span class="icon-example" onclick="setIcon('🌟')">🌟 Popüler</span>
+                            <span class="icon-example" onclick="setIcon('✨')">✨ Yeni</span>
+                            <span class="icon-example" onclick="setIcon('🎉')">🎉 Kutlama</span>
+                            <span class="icon-example" onclick="setIcon('🎊')">🎊 Başarı</span>
+                            <span class="icon-example" onclick="setIcon('🎈')">🎈 Eğlence</span>
+                            <span class="icon-example" onclick="setIcon('🎁')">🎁 Hediye</span>
+                            <span class="icon-example" onclick="setIcon('🏃')">🏃 Hızlı</span>
+                            <span class="icon-example" onclick="setIcon('💫')">💫 Özel</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🌍 Web & İnternet</div>
+                            <span class="icon-example" onclick="setIcon('🌍')">🌍 Global</span>
+                            <span class="icon-example" onclick="setIcon('🌐')">🌐 Web</span>
+                            <span class="icon-example" onclick="setIcon('📡')">📡 Bağlantı</span>
+                            <span class="icon-example" onclick="setIcon('📶')">📶 Sinyal</span>
+                            <span class="icon-example" onclick="setIcon('🔗')">🔗 Link</span>
+                            <span class="icon-example" onclick="setIcon('📧')">📧 Email</span>
+                            <span class="icon-example" onclick="setIcon('💬')">💬 Mesaj</span>
+                            <span class="icon-example" onclick="setIcon('🔔')">🔔 Bildirim</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🏢 Kurumsal & Profesyonel</div>
+                            <span class="icon-example" onclick="setIcon('🏢')">🏢 Şirket</span>
+                            <span class="icon-example" onclick="setIcon('🏬')">🏬 Mağaza</span>
+                            <span class="icon-example" onclick="setIcon('🏭')">🏭 Fabrika</span>
+                            <span class="icon-example" onclick="setIcon('🏛️')">🏛️ Kurum</span>
+                            <span class="icon-example" onclick="setIcon('👔')">👔 Profesyonel</span>
+                            <span class="icon-example" onclick="setIcon('🤝')">🤝 Ortaklık</span>
+                            <span class="icon-example" onclick="setIcon('📞')">📞 Destek</span>
+                            <span class="icon-example" onclick="setIcon('☎️')">☎️ İletişim</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🎓 Eğitim & Öğretim</div>
+                            <span class="icon-example" onclick="setIcon('🎓')">🎓 Eğitim</span>
+                            <span class="icon-example" onclick="setIcon('📚')">📚 Kitap</span>
+                            <span class="icon-example" onclick="setIcon('📖')">📖 Okuma</span>
+                            <span class="icon-example" onclick="setIcon('✍️')">✍️ Yazma</span>
+                            <span class="icon-example" onclick="setIcon('🧑‍🏫')">🧑‍🏫 Öğretmen</span>
+                            <span class="icon-example" onclick="setIcon('🧑‍🎓')">🧑‍🎓 Öğrenci</span>
+                            <span class="icon-example" onclick="setIcon('📜')">📜 Sertifika</span>
+                            <span class="icon-example" onclick="setIcon('🏆')">🏆 Ödül</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🎵 Medya & Eğlence</div>
+                            <span class="icon-example" onclick="setIcon('🎵')">🎵 Müzik</span>
+                            <span class="icon-example" onclick="setIcon('🎤')">🎤 Ses</span>
+                            <span class="icon-example" onclick="setIcon('🎧')">🎧 Audio</span>
+                            <span class="icon-example" onclick="setIcon('📺')">📺 Video</span>
+                            <span class="icon-example" onclick="setIcon('🎮')">🎮 Oyun</span>
+                            <span class="icon-example" onclick="setIcon('🎪')">🎪 Şov</span>
+                            <span class="icon-example" onclick="setIcon('🎭')">🎭 Tiyatro</span>
+                            <span class="icon-example" onclick="setIcon('🎨')">🎨 Sanat</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🏥 Sağlık & Bakım</div>
+                            <span class="icon-example" onclick="setIcon('🏥')">🏥 Sağlık</span>
+                            <span class="icon-example" onclick="setIcon('⚕️')">⚕️ Tıp</span>
+                            <span class="icon-example" onclick="setIcon('💊')">💊 İlaç</span>
+                            <span class="icon-example" onclick="setIcon('🩺')">🩺 Muayene</span>
+                            <span class="icon-example" onclick="setIcon('💉')">💉 Aşı</span>
+                            <span class="icon-example" onclick="setIcon('🧬')">🧬 DNA</span>
+                            <span class="icon-example" onclick="setIcon('🔬')">🔬 Laboratuvar</span>
+                            <span class="icon-example" onclick="setIcon('🩹')">🩹 Bakım</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🚗 Ulaşım & Lojistik</div>
+                            <span class="icon-example" onclick="setIcon('🚗')">🚗 Araba</span>
+                            <span class="icon-example" onclick="setIcon('🚚')">🚚 Kargo</span>
+                            <span class="icon-example" onclick="setIcon('✈️')">✈️ Uçak</span>
+                            <span class="icon-example" onclick="setIcon('🚢')">🚢 Gemi</span>
+                            <span class="icon-example" onclick="setIcon('🚂')">🚂 Tren</span>
+                            <span class="icon-example" onclick="setIcon('🚴')">🚴 Bisiklet</span>
+                            <span class="icon-example" onclick="setIcon('📦')">📦 Paket</span>
+                            <span class="icon-example" onclick="setIcon('🗺️')">🗺️ Harita</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🍕 Yemek & İçecek</div>
+                            <span class="icon-example" onclick="setIcon('🍕')">🍕 Pizza</span>
+                            <span class="icon-example" onclick="setIcon('🍔')">🍔 Burger</span>
+                            <span class="icon-example" onclick="setIcon('☕')">☕ Kahve</span>
+                            <span class="icon-example" onclick="setIcon('🍰')">🍰 Pasta</span>
+                            <span class="icon-example" onclick="setIcon('🥘')">🥘 Yemek</span>
+                            <span class="icon-example" onclick="setIcon('🍳')">🍳 Pişirme</span>
+                            <span class="icon-example" onclick="setIcon('🍴')">🍴 Restoran</span>
+                            <span class="icon-example" onclick="setIcon('🥗')">🥗 Salata</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🏠 Ev & Yaşam</div>
+                            <span class="icon-example" onclick="setIcon('🏠')">🏠 Ev</span>
+                            <span class="icon-example" onclick="setIcon('🏡')">🏡 Villa</span>
+                            <span class="icon-example" onclick="setIcon('🏢')">🏢 Apartman</span>
+                            <span class="icon-example" onclick="setIcon('🛏️')">🛏️ Yatak</span>
+                            <span class="icon-example" onclick="setIcon('🛋️')">🛋️ Koltuk</span>
+                            <span class="icon-example" onclick="setIcon('🚿')">🚿 Banyo</span>
+                            <span class="icon-example" onclick="setIcon('🧹')">🧹 Temizlik</span>
+                            <span class="icon-example" onclick="setIcon('🔧')">🔧 Tamir</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">💝 Özel & Kişisel</div>
+                            <span class="icon-example" onclick="setIcon('💝')">💝 Hediye</span>
+                            <span class="icon-example" onclick="setIcon('💍')">💍 Mücevher</span>
+                            <span class="icon-example" onclick="setIcon('👗')">👗 Giyim</span>
+                            <span class="icon-example" onclick="setIcon('👠')">👠 Ayakkabı</span>
+                            <span class="icon-example" onclick="setIcon('💄')">💄 Güzellik</span>
+                            <span class="icon-example" onclick="setIcon('💅')">💅 Bakım</span>
+                            <span class="icon-example" onclick="setIcon('🎀')">🎀 Aksesuar</span>
+                            <span class="icon-example" onclick="setIcon('🌺')">🌺 Çiçek</span>
+                        </div>
+
+                        <div class="icon-category">
+                            <div class="icon-category-title">🌿 Doğa & Çevre</div>
+                            <span class="icon-example" onclick="setIcon('🌿')">🌿 Doğa</span>
+                            <span class="icon-example" onclick="setIcon('🌱')">🌱 Fide</span>
+                            <span class="icon-example" onclick="setIcon('🌳')">🌳 Ağaç</span>
+                            <span class="icon-example" onclick="setIcon('🌍')">🌍 Dünya</span>
+                            <span class="icon-example" onclick="setIcon('♻️')">♻️ Geri Dönüşüm</span>
+                            <span class="icon-example" onclick="setIcon('🌞')">🌞 Güneş</span>
+                            <span class="icon-example" onclick="setIcon('⭐')">⭐ Yıldız</span>
+                            <span class="icon-example" onclick="setIcon('🌙')">🌙 Ay</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Servis Maddeleri -->
+            <div class="form-section">
+                <div class="section-title">📋 SERVİS MADDELERİ</div>
+
+                <div class="current-info">
+                    <strong>📊 Mevcut Durum:</strong> Bu serviste şu anda <strong>@Model.Maddelers.Count madde</strong> bulunmaktadır.
+                    @if (Model.Maddelers.Any())
+                    {
+                        <br>
+                        <small>Mevcut maddeler aşağıda yüklenecektir. Düzenleyebilir, silebilir veya yeni maddeler ekleyebilirsiniz.</small>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-add" onclick="addMaddelerField()">
+                        ➕ YENİ MADDE EKLE
+                    </button>
+
+                    <div class="dynamic-fields-container" id="maddelerContainer">
+                        <div id="maddelerWrapper">
+                            <!-- Mevcut maddeler ve yeni eklenecek alanlar buraya eklenecek -->
+                        </div>
+                        <div id="noMaddelerMessage" class="no-fields-message" style="display: none;">
+                            📋 Henüz madde eklenmedi.<br>
+                            Yukarıdaki "Yeni Madde Ekle" butonunu kullanarak başlayın.
+                        </div>
+                    </div>
+
+                    <div class="field-counter" id="maddelerCounter">
+                        📊 TOPLAM MADDE: <span id="maddelerCount">0</span>
+                    </div>
+                    <div class="help-text">Servisinize ait maddeleri, özelliklerini veya avantajlarını belirtin</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 GÜNCELLE</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let maddelerCounter = 0;
+        let iconPanelExpanded = false;
+
+        // İkon seçme fonksiyonu
+        function setIcon(iconCode) {
+            document.querySelector('input[name="İkon"]').value = iconCode;
+            document.querySelector('input[name="İkon"]').focus();
+        }
+
+        // İkon panelini genişlet/daralt
+        function toggleIconPanel() {
+            const iconExamples = document.getElementById('iconExamples');
+            iconPanelExpanded = !iconPanelExpanded;
+
+            if (iconPanelExpanded) {
+                iconExamples.style.maxHeight = '600px';
+            } else {
+                iconExamples.style.maxHeight = '150px';
+            }
+        }
+
+        // İkon arama fonksiyonu
+        function filterIcons() {
+            const searchTerm = document.getElementById('iconSearch').value.toLowerCase();
+            const categories = document.querySelectorAll('.icon-category');
+
+            categories.forEach(category => {
+                const icons = category.querySelectorAll('.icon-example');
+                let hasVisibleIcons = false;
+
+                icons.forEach(icon => {
+                    const iconText = icon.textContent.toLowerCase();
+                    if (iconText.includes(searchTerm)) {
+                        icon.style.display = 'inline-block';
+                        hasVisibleIcons = true;
+                    } else {
+                        icon.style.display = 'none';
+                    }
+                });
+
+                // Kategoriyi gizle/göster
+                category.style.display = hasVisibleIcons ? 'block' : 'none';
+            });
+        }
+
+        // Karakter sayacı
+        document.querySelectorAll('input[maxlength], textarea[maxlength]').forEach(input => {
+            const maxLength = input.getAttribute('maxlength');
+            const helpText = input.parentElement.querySelector('.help-text');
+
+            if (helpText) {
+                const originalText = helpText.textContent;
+
+                // Sayfa yüklendiğinde mevcut değeri göster
+                updateCounter();
+
+                input.addEventListener('input', updateCounter);
+
+                function updateCounter() {
+                    const remaining = maxLength - input.value.length;
+                    helpText.textContent = `${originalText} (${remaining} karakter kaldı)`;
+
+                    if (remaining < 50) {
+                        helpText.style.color = '#ff4040';
+                    } else {
+                        helpText.style.color = '#cccccc';
+                    }
+                }
+            }
+        });
+
+        // Maddeler Fonksiyonları
+        function addMaddelerField(existingValue = '') {
+            const wrapper = document.getElementById('maddelerWrapper');
+            const noFieldsMsg = document.getElementById('noMaddelerMessage');
+
+            noFieldsMsg.style.display = 'none';
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.innerHTML = `
+                <input type="text"
+                       name="MaddelerFields[${maddelerCounter}]"
+                       class="field-input"
+                       placeholder="📋 Madde girin (örn: Profesyonel tasarım hizmeti)"
+                       maxlength="500"
+                       value="${existingValue}"
+                       onchange="updateMaddelerCount()" />
+                <button type="button" class="btn btn-remove" onclick="removeMaddelerField(this)">
+                    🗑️ KALDIR
+                </button>
+            `;
+
+            wrapper.appendChild(fieldDiv);
+            maddelerCounter++;
+            updateMaddelerCount();
+
+            if (!existingValue) {
+                fieldDiv.querySelector('input').focus();
+                fieldDiv.style.animation = 'glow 1s ease-in-out';
+            }
+        }
+
+        function removeMaddelerField(button) {
+            const wrapper = document.getElementById('maddelerWrapper');
+            const noFieldsMsg = document.getElementById('noMaddelerMessage');
+
+            button.parentElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                button.parentElement.remove();
+                if (wrapper.children.length === 0) {
+                    noFieldsMsg.style.display = 'block';
+                }
+                updateMaddelerCount();
+            }, 300);
+        }
+
+        function updateMaddelerCount() {
+            const fields = document.querySelectorAll('#maddelerWrapper .field-item input');
+            document.getElementById('maddelerCount').textContent = fields.length;
+        }
+
+        // Sayfa yüklendiğinde mevcut maddeleri yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mevcut maddeleri ekle
+            @foreach (var madde in Model.Maddelers)
+            {
+                    <text>addMaddelerField('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(madde.Name)');</text>
+            }
+
+            // Eğer hiç madde yoksa bir boş alan ekle
+            if (maddelerCounter === 0) {
+                addMaddelerField();
+            }
+        });
+
+        // CSS animasyonları
+        const style = document.createElement('style');
+        style.textContent = `
+            @@keyframes fadeOut {
+                from { opacity: 1; transform: scale(1); }
+                to { opacity: 0; transform: scale(0.8); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

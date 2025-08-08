@@ -1,0 +1,2730 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitimler - Migfer Kariyer</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-blue: #1a2332;
+            --teal: #4a9b9b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @@keyframes gradientShift {
+            0%
+
+        {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: -1;
+        }
+
+        /* Header - Fixed background color, no scroll change */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 0;
+            background: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: none !important;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--dark-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: var(--teal);
+            }
+
+            .logo-icon::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: logoShine 3s ease-in-out infinite;
+            }
+
+        @@keyframes logoShine {
+            0%
+
+        {
+            left: -100%;
+        }
+
+        50% {
+            left: 100%;
+        }
+
+        100% {
+            left: 100%;
+        }
+
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+            .nav-menu a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+
+                .nav-menu a:hover {
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+
+                .nav-menu a::after {
+                    content: '';
+                    position: absolute;
+                    width: 0;
+                    height: 2px;
+                    bottom: -5px;
+                    left: 50%;
+                    background: var(--primary-gradient);
+                    transition: all 0.3s ease;
+                    transform: translateX(-50%);
+                }
+
+                .nav-menu a:hover::after {
+                    width: 100%;
+                }
+
+        .cta-button {
+            background: var(--secondary-gradient);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+        }
+
+            .cta-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+            }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+            .mobile-menu-toggle span {
+                width: 25px;
+                height: 3px;
+                background: white;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+            .mobile-menu.active {
+                display: block;
+                transform: translateY(0);
+            }
+
+            .mobile-menu ul {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .mobile-menu a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 1.1rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transition: color 0.3s ease;
+            }
+
+                .mobile-menu a:hover {
+                    color: #fff;
+                }
+
+        /* Video Banner Section */
+        .video-banner {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+            .banner-content h1 {
+                font-size: clamp(2.5rem, 8vw, 5rem);
+                font-weight: 800;
+                margin-bottom: 1.5rem;
+                background: linear-gradient(135deg, #fff 0%, #667eea 50%, #f093fb 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .banner-content p {
+                font-size: clamp(1rem, 3vw, 1.3rem);
+                color: rgba(255, 255, 255, 0.9);
+                margin-bottom: 2rem;
+                line-height: 1.6;
+            }
+
+        .banner-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary-large {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary-large {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-large:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Play button for video */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+            .play-button:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+
+            .play-button i {
+                font-size: 24px;
+                color: white;
+                margin-left: 4px;
+            }
+
+        /* Services Section */
+        .services-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #fff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .service-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .service-card:hover::before {
+                left: 100%;
+            }
+
+            .service-card:hover {
+                transform: translateY(-15px) scale(1.02);
+                box-shadow: 0 25px 50px -12px rgba(102, 126, 234, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            color: var(--teal);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .service-features {
+            list-style: none;
+            text-align: left;
+        }
+
+            .service-features li {
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 0.6rem;
+                padding-left: 1.5rem;
+                position: relative;
+                font-size: 0.9rem;
+            }
+
+                .service-features li::before {
+                    content: '\f00c';
+                    font-family: 'Font Awesome 6 Free';
+                    font-weight: 900;
+                    position: absolute;
+                    left: 0;
+                    color: var(--teal);
+                    font-size: 0.8rem;
+                }
+
+        /* Popular Courses Section */
+        .courses-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+            .course-card:hover {
+                transform: translateY(-15px);
+                box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.4);
+            }
+
+        .course-image {
+            height: 180px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+            .course-image::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.2);
+            }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--warning-gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .course-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+            .stars i {
+                color: #ffd700;
+                font-size: 0.8rem;
+            }
+
+        .rating-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        .course-students {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        .course-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-current {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+        }
+
+        .course-duration {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .course-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .course-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            }
+
+        /* Works/Projects Section */
+        .works-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .work-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+            .work-card:hover {
+                transform: translateY(-15px);
+                box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.4);
+            }
+
+        .work-image {
+            height: 200px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+            .work-image::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.2);
+            }
+
+        .work-content {
+            padding: 2rem;
+        }
+
+        .work-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .work-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .work-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Instructors Section */
+        .instructors-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .instructor-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .instructor-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .instructor-card:hover::before {
+                left: 100%;
+            }
+
+            .instructor-card:hover {
+                transform: translateY(-15px) scale(1.02);
+                box-shadow: 0 25px 50px -12px rgba(102, 126, 234, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        .instructor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+            .instructor-avatar::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+            }
+
+        .instructor-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .instructor-title {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .specialty-tag {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .instructor-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-text {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 2.5rem;
+        }
+
+            .about-text h3 {
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .about-text p {
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 1.5rem;
+                line-height: 1.8;
+                font-size: 0.95rem;
+            }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+            .feature-item:hover {
+                transform: translateY(-10px);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--teal);
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .feature-item p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Contact Form Styles */
+        .contact-form-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .contact-form-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .contact-form-container:hover::before {
+                left: 100%;
+            }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            .form-input:focus, .form-textarea:focus, .form-select:focus {
+                outline: none;
+                border-color: var(--teal);
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 20px rgba(74, 155, 155, 0.3);
+                transform: translateY(-2px);
+            }
+
+            .form-input::placeholder, .form-textarea::placeholder {
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+            .form-select option {
+                background: #1a1a1a;
+                color: white;
+                padding: 0.5rem;
+            }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+            .form-label i {
+                color: var(--teal);
+                margin-right: 0.5rem;
+                width: 16px;
+            }
+
+        .submit-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            justify-self: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .submit-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .submit-btn:hover::before {
+                left: 100%;
+            }
+
+            .submit-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+            }
+
+            .submit-btn:active {
+                transform: translateY(-1px);
+            }
+
+        .form-note {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+            .form-note i {
+                color: var(--teal);
+                margin-right: 0.5rem;
+            }
+
+        /* Form validation styles */
+        .form-input:valid, .form-textarea:valid, .form-select:valid {
+            border-color: #4ade80;
+        }
+
+        .form-input:invalid:not(:placeholder-shown),
+        .form-textarea:invalid:not(:placeholder-shown) {
+            border-color: #ef4444;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+            .footer-section ul li {
+                margin-bottom: 0.6rem;
+            }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+            .footer-section a:hover {
+                color: #fff;
+            }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Loading and reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+            .reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* Mobile Responsive */
+        @@media (max-width: 1024px) {
+            .services-grid
+
+        {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .works-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .courses-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        }
+
+        @@media (max-width: 768px) {
+            .nav-menu, .cta-button
+
+        {
+            display: none;
+        }
+
+        .mobile-menu-toggle {
+            display: flex;
+        }
+
+        .nav-container {
+            padding: 0 1rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+            .logo-icon i {
+                font-size: 20px;
+            }
+
+        .banner-content {
+            padding: 0 1rem;
+        }
+
+        .banner-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-large {
+            width: 100%;
+            max-width: 280px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
+        .services-section,
+        .courses-section,
+        .works-section,
+        .instructors-section,
+        .about-section,
+        .contact-form-section {
+            padding: 3rem 1rem;
+        }
+
+        .services-grid,
+        .courses-grid,
+        .instructors-grid,
+        .works-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .about-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .about-features {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .service-card,
+        .course-card,
+        .instructor-card,
+        .about-text,
+        .feature-item,
+        .contact-form-container {
+            padding: 1.5rem;
+        }
+
+        .work-content {
+            padding: 1.5rem;
+        }
+
+        .work-image {
+            height: 180px;
+            font-size: 2.5rem;
+        }
+
+        .footer {
+            padding: 2rem 1rem 1.5rem;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+        }
+
+            .play-button i {
+                font-size: 18px;
+            }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-form-container {
+            padding: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.6rem;
+        }
+
+        .mobile-menu {
+            top: 70px;
+        }
+
+        }
+
+        @@media (max-width: 480px) {
+            .logo-text
+
+        {
+            font-size: 1.3rem;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+            .logo-icon i {
+                font-size: 18px;
+            }
+
+        .banner-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-content p {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card h3,
+        .work-title,
+        .instructor-name {
+            font-size: 1.3rem;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+        }
+
+        .service-icon,
+        .feature-icon {
+            font-size: 2.5rem;
+        }
+
+        .instructor-avatar {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+        }
+
+        .work-image {
+            height: 150px;
+            font-size: 2rem;
+        }
+
+        .course-image {
+            height: 150px;
+            font-size: 2rem;
+        }
+
+        .btn-large {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .services-section,
+        .courses-section,
+        .works-section,
+        .instructors-section,
+        .about-section,
+        .contact-form-section {
+            padding: 2rem 0.8rem;
+        }
+
+        .contact-form-container {
+            padding: 1.5rem;
+        }
+
+        .form-title {
+            font-size: 1.4rem;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
+        .mobile-menu {
+            top: 65px;
+        }
+
+        }
+
+        /* Tablet specific adjustments */
+        @@media (min-width: 769px) and (max-width: 1024px) {
+            .nav-container
+
+        {
+            padding: 0 1.5rem;
+        }
+
+        .nav-menu {
+            gap: 1.5rem;
+        }
+
+            .nav-menu a {
+                font-size: 0.9rem;
+            }
+
+        .cta-button {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .banner-content {
+            max-width: 700px;
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .courses-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .instructors-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .works-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .about-features {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        }
+
+        /* Large tablet adjustments */
+        @@media (min-width: 1025px) and (max-width: 1200px) {
+            .services-grid
+
+        {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .courses-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .instructors-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .works-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        }
+
+        /* Touch improvements for mobile */
+        @@media (hover: none) and (pointer: coarse) {
+            .service-card:hover, .course-card:hover, .instructor-card:hover, .work-card:hover, .feature-item:hover
+
+        {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .service-card:active,
+        .course-card:active,
+        .instructor-card:active,
+        .work-card:active {
+            transform: scale(0.98);
+        }
+
+        .btn-large:hover,
+        .cta-button:hover,
+        .submit-btn:hover {
+            transform: none;
+        }
+
+        .btn-large:active,
+        .cta-button:active,
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        }
+
+        /* High DPI screen adjustments */
+        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .logo-icon i, .service-icon, .feature-icon
+
+        {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        }
+
+        /* Landscape mobile adjustments */
+        @@media (max-height: 500px) and (orientation: landscape) {
+            .video-banner
+
+        {
+            height: 100vh;
+            min-height: 400px;
+        }
+
+        .banner-content h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-content p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-buttons {
+            gap: 0.5rem;
+        }
+
+        .btn-large {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">Migfer Kariyer</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#services">Hizmetlerimiz</a></li>
+                    <li><a href="#courses">Eğitimler</a></li>
+                    <li><a href="#works">Projelerimiz</a></li>
+                    <li><a href="#about">Hakkımızda</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <a href="#" class="cta-button">İletişim</a>
+        </div>
+
+        <!-- Mobile Menu -->
+        <nav class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="closeMobileMenu()">Ana Sayfa</a></li>
+                <li><a href="#services" onclick="closeMobileMenu()">Hizmetlerimiz</a></li>
+                <li><a href="#courses" onclick="closeMobileMenu()">Eğitimler</a></li>
+                <li><a href="#works" onclick="closeMobileMenu()">Projelerimiz</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">Hakkımızda</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">İletişim</a></li>
+                <li><a href="#" onclick="closeMobileMenu()">Ücretsiz Deneme</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Video Banner Section -->
+    <section id="home" class="video-banner">
+        <video class="video-background" autoplay muted loop>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            <!-- Fallback gradient background if video doesn't load -->
+        </video>
+        <div class="video-overlay"></div>
+        <div class="play-button">
+            <i class="fas fa-play"></i>
+        </div>
+
+        <div class="banner-content">
+            <h1>Geleceğin Teknolojilerini Öğren</h1>
+            <p>Migfer Kariyer ile kariyerinizi şekillendirin. En güncel teknolojiler, uzman eğitmenler ve uygulamalı projelerle geleceğe hazırlanın.</p>
+            <div class="banner-buttons">
+                <a href="#courses" class="btn-large btn-primary-large">Eğitimlere Başla</a>
+                <a href="#about" class="btn-large btn-secondary-large">Daha Fazla Bilgi</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section reveal">
+        <h2 class="section-title">Hakkımızda</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3><i class="fas fa-rocket" style="color: var(--teal); margin-right: 10px;"></i>Teknoloji Kariyerinizi Şekillendirin</h3>
+                <p>Migfer Kariyer olarak, 2018 yılından bu yana binlerce öğrencinin teknoloji alanında kariyer yapmasına yardımcı oluyoruz. Sektörün önde gelen uzmanları tarafından hazırlanan eğitim programlarımızla, teorik bilgiyi pratik deneyimle birleştirerek size en güncel ve işlevsel eğitimi sunuyoruz.</p>
+
+                <p>Misyonumuz, teknoloji alanında kendini geliştirmek isteyen herkese, dünya standartlarında eğitim imkanı sunmak ve onları geleceğin işlerine hazırlamaktır. Vizyonumuz ise, Türkiye'nin en büyük ve en kaliteli online teknoloji eğitim platformu olmaktır.</p>
+
+                <p><i class="fas fa-bullseye" style="color: var(--teal); margin-right: 8px;"></i><strong>Neden Migfer Kariyer?</strong> Çünkü sadece kod öğretmiyoruz, problem çözme becerinizi geliştiriyoruz. Real-world projeler, mentörlük desteği ve kariyer rehberliği ile profesyonel hayatınızda fark yaratacak deneyimi kazanıyorsunuz.</p>
+            </div>
+
+            <div class="about-features">
+                <div class="feature-item">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                    <h4>Uzman Eğitmenler</h4>
+                    <p>Sektörde 5+ yıl deneyime sahip, gerçek projelerde çalışmış uzmanlardan öğrenin</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-project-diagram feature-icon"></i>
+                    <h4>Proje Tabanlı Öğrenme</h4>
+                    <p>Gerçek dünya projeleri ile portfolyonuzu güçlendirin ve iş deneyimi kazanın</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-hands-helping feature-icon"></i>
+                    <h4>Mentörlük Desteği</h4>
+                    <p>1-on-1 mentörlük seansları ile kişisel gelişiminizi hızlandırın</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h4>Topluluk Ağı</h4>
+                    <p>50.000+ üyeli toplulukta networking yapın ve kariyer fırsatları keşfedin</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h4>Kariyer Rehberliği</h4>
+                    <p>CV hazırlama, mülakat teknikleri ve iş arama süreçlerinde destek alın</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-certificate feature-icon"></i>
+                    <h4>Sertifikasyon</h4>
+                    <p>Sektörde geçerli sertifikalar ile profesyonel yetkinliğinizi belgeleyin</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section reveal">
+        <h2 class="section-title">Hizmetlerimiz</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-code service-icon"></i>
+                <h3>Web Development</h3>
+                <p>Modern web teknolojileri ile responsive ve performanslı web siteleri geliştirme</p>
+                <ul class="service-features">
+                    <li>React, Vue.js, Angular eğitimleri</li>
+                    <li>Node.js ve Express.js backend geliştirme</li>
+                    <li>MongoDB, PostgreSQL veritabanı yönetimi</li>
+                    <li>RESTful API ve GraphQL servisleri</li>
+                    <li>DevOps ve deployment süreçleri</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-mobile-alt service-icon"></i>
+                <h3>Mobile Development</h3>
+                <p>iOS ve Android platformları için native ve cross-platform mobil uygulama geliştirme</p>
+                <ul class="service-features">
+                    <li>React Native ile cross-platform geliştirme</li>
+                    <li>Swift ile iOS uygulama geliştirme</li>
+                    <li>Kotlin ile Android uygulama geliştirme</li>
+                    <li>Flutter framework eğitimi</li>
+                    <li>App Store ve Play Store yayınlama</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-robot service-icon"></i>
+                <h3>Artificial Intelligence</h3>
+                <p>Makine öğrenmesi, derin öğrenme ve yapay zeka çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>Python ve TensorFlow ile ML</li>
+                    <li>Computer Vision projeleri</li>
+                    <li>Natural Language Processing</li>
+                    <li>Deep Learning algoritmaları</li>
+                    <li>AI model deployment</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-cloud service-icon"></i>
+                <h3>Cloud Computing</h3>
+                <p>AWS, Azure ve Google Cloud platformlarında bulut çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>AWS servisleri ve mimarisi</li>
+                    <li>Docker ve Kubernetes</li>
+                    <li>Serverless computing</li>
+                    <li>CI/CD pipeline kurulumu</li>
+                    <li>Cloud security best practices</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-shield-alt service-icon"></i>
+                <h3>Cyber Security</h3>
+                <p>Siber güvenlik, etik hackerlik ve penetrasyon testleri konularında uzmanlaşma</p>
+                <ul class="service-features">
+                    <li>Ethical hacking teknikleri</li>
+                    <li>Network security analizi</li>
+                    <li>Web application security</li>
+                    <li>Incident response procedures</li>
+                    <li>Security compliance ve standards</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-chart-bar service-icon"></i>
+                <h3>Data Science</h3>
+                <p>Veri analizi, görselleştirme ve büyük veri çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>Python ile veri analizi</li>
+                    <li>Pandas, NumPy, Matplotlib</li>
+                    <li>SQL ve NoSQL veritabanları</li>
+                    <li>Data visualization tools</li>
+                    <li>Big Data ve Apache Spark</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Courses Section -->
+    <section id="courses" class="courses-section reveal">
+        <h2 class="section-title">Popüler Eğitimlerimiz</h2>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fab fa-react"></i>
+                    <div class="course-badge">En Çok Satan</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Complete React Developer</h3>
+                    <p class="course-description">Sıfırdan ileri seviyeye React.js öğrenin. Modern JavaScript, hooks, context API ve Redux ile gerçek projeler geliştirin.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.9 (2,845)</span>
+                        </div>
+                        <span class="course-students">15,234 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺299</span>
+                        <span class="price-old">₺599</span>
+                        <span class="course-duration">42 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fab fa-python"></i>
+                    <div class="course-badge">Yeni</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Python ile Veri Bilimi</h3>
+                    <p class="course-description">Python, Pandas, NumPy ve Matplotlib ile veri analizi öğrenin. Machine Learning algoritmalarını uygulayın.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.8 (1,923)</span>
+                        </div>
+                        <span class="course-students">8,567 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺399</span>
+                        <span class="price-old">₺799</span>
+                        <span class="course-duration">38 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fab fa-node-js"></i>
+                    <div class="course-badge">Popüler</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Full-Stack Web Development</h3>
+                    <p class="course-description">React, Node.js, Express ve MongoDB ile complete full-stack web uygulamaları geliştirin.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.9 (3,421)</span>
+                        </div>
+                        <span class="course-students">12,345 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺499</span>
+                        <span class="price-old">₺999</span>
+                        <span class="course-duration">56 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fab fa-aws"></i>
+                    <div class="course-badge">Sertifikalı</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">AWS Cloud Solutions</h3>
+                    <p class="course-description">Amazon Web Services ile cloud computing öğrenin. EC2, S3, Lambda ve diğer AWS servislerini master edin.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.7 (1,567)</span>
+                        </div>
+                        <span class="course-students">6,789 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺599</span>
+                        <span class="price-old">₺1,199</span>
+                        <span class="course-duration">48 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fab fa-android"></i>
+                    <div class="course-badge">Güncel</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Mobile App Development</h3>
+                    <p class="course-description">React Native ile iOS ve Android uygulamaları geliştirin. Cross-platform mobil geliştirme master edin.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.8 (2,156)</span>
+                        </div>
+                        <span class="course-students">9,876 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺449</span>
+                        <span class="price-old">₺899</span>
+                        <span class="course-duration">44 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fas fa-brain"></i>
+                    <div class="course-badge">Premium</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Artificial Intelligence & ML</h3>
+                    <p class="course-description">TensorFlow ve PyTorch ile derin öğrenme. Computer Vision ve NLP projelerinde uzmanlaşın.</p>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.9 (1,234)</span>
+                        </div>
+                        <span class="course-students">5,432 öğrenci</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-current">₺699</span>
+                        <span class="price-old">₺1,399</span>
+                        <span class="course-duration">52 saat</span>
+                    </div>
+                    <button class="course-btn">Kursa Katıl</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works/Projects Section -->
+    <section id="works" class="works-section reveal">
+        <h2 class="section-title">Yaptığımız İşler</h2>
+        <div class="works-grid">
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">E-Ticaret Platformu</h3>
+                    <p class="work-description">Modern React.js ve Node.js teknolojileri kullanılarak geliştirilmiş, tam özellikli e-ticaret platformu. Öğrencilerimizin real-world projesinde yer aldığı kapsamlı uygulama.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Stripe</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">Fitness Tracking App</h3>
+                    <p class="work-description">React Native ile geliştirilmiş cross-platform fitness uygulaması. Kullanıcıların egzersiz rutinlerini takip edebilecekleri, ilerleme kaydedebilecekleri modern mobil uygulama.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">Redux</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">Banking Dashboard</h3>
+                    <p class="work-description">Finans sektörü için geliştirilmiş güvenli ve kullanıcı dostu dashboard uygulaması. Real-time data visualization ve güvenli işlem yönetimi özellikleri.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">Vue.js</span>
+                        <span class="tech-tag">Express.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">JWT</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">AI Chatbot Platform</h3>
+                    <p class="work-description">Natural Language Processing teknolojileri kullanılarak geliştirilmiş akıllı chatbot platformu. Müşteri hizmetleri ve destek süreçlerini otomatikleştiren AI çözümü.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">NLTK</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">Data Analytics Dashboard</h3>
+                    <p class="work-description">Büyük veri setlerini analiz eden ve görselleştiren interaktif dashboard. İş zekası çözümleri ve veri odaklı karar verme süreçlerini destekleyen platform.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">Apache Spark</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-image">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title">Cloud Infrastructure</h3>
+                    <p class="work-description">AWS üzerinde kurulan scalable ve güvenli bulut altyapısı. Microservices mimarisi ve containerization teknolojileri kullanılarak geliştirilmiş enterprise çözüm.</p>
+                    <div class="work-tech">
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Terraform</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section class="instructors-section reveal">
+        <h2 class="section-title">Uzman Eğitmenlerimiz</h2>
+        <div class="instructors-grid">
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="instructor-name">Ahmet Yılmaz</h3>
+                <p class="instructor-title">Senior Full-Stack Developer</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">React</span>
+                    <span class="specialty-tag">Node.js</span>
+                    <span class="specialty-tag">TypeScript</span>
+                    <span class="specialty-tag">MongoDB</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-female"></i>
+                </div>
+                <h3 class="instructor-name">Dr. Zeynep Kaya</h3>
+                <p class="instructor-title">AI & Machine Learning Expert</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">Python</span>
+                    <span class="specialty-tag">TensorFlow</span>
+                    <span class="specialty-tag">Deep Learning</span>
+                    <span class="specialty-tag">PyTorch</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">8k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-user-cog"></i>
+                </div>
+                <h3 class="instructor-name">Mehmet Özkan</h3>
+                <p class="instructor-title">Cloud Solutions Architect</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">AWS</span>
+                    <span class="specialty-tag">Azure</span>
+                    <span class="specialty-tag">Docker</span>
+                    <span class="specialty-tag">Kubernetes</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">12k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="instructor-name">Ayşe Demir</h3>
+                <p class="instructor-title">Mobile Development Lead</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">React Native</span>
+                    <span class="specialty-tag">Swift</span>
+                    <span class="specialty-tag">Kotlin</span>
+                    <span class="specialty-tag">Flutter</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">9k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 class="instructor-name">Can Arslan</h3>
+                <p class="instructor-title">Cyber Security Specialist</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">Ethical Hacking</span>
+                    <span class="specialty-tag">Penetration Testing</span>
+                    <span class="specialty-tag">Network Security</span>
+                    <span class="specialty-tag">Incident Response</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">9+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="instructor-name">Elif Yıldız</h3>
+                <p class="instructor-title">Data Science Expert</p>
+                <div class="instructor-specialties">
+                    <span class="specialty-tag">Python</span>
+                    <span class="specialty-tag">R</span>
+                    <span class="specialty-tag">Pandas</span>
+                    <span class="specialty-tag">SQL</span>
+                </div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">7+</span>
+                        <span class="stat-label">Yıl Deneyim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">11k+</span>
+                        <span class="stat-label">Öğrenci</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="services-section reveal">
+        <h2 class="section-title">İletişim</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3><i class="fas fa-phone" style="color: var(--teal); margin-right: 10px;"></i>Bizimle İletişime Geçin</h3>
+                <p><strong><i class="fas fa-map-marker-alt" style="color: var(--teal); margin-right: 8px;"></i>Adres:</strong> Nilüfer, Bursa / Türkiye</p>
+                <p><strong><i class="fas fa-phone" style="color: var(--teal); margin-right: 8px;"></i>Telefon:</strong> +90 (224) 123 45 67</p>
+                <p><strong><i class="fas fa-envelope" style="color: var(--teal); margin-right: 8px;"></i>E-posta:</strong> info@migferkariyer.com</p>
+                <p><strong><i class="fab fa-whatsapp" style="color: var(--teal); margin-right: 8px;"></i>WhatsApp:</strong> +90 (555) 123 45 67</p>
+            </div>
+
+            <div class="about-features">
+                <div class="feature-item">
+                    <i class="fas fa-envelope feature-icon"></i>
+                    <h4>E-posta</h4>
+                    <p>Sorularınız için 24 saat içinde yanıt garantisi</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-comments feature-icon"></i>
+                    <h4>Canlı Destek</h4>
+                    <p>Anlık yardım için canlı destek hattımızı kullanın</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fab fa-whatsapp feature-icon"></i>
+                    <h4>WhatsApp</h4>
+                    <p>Hızlı iletişim için WhatsApp hattımızdan ulaşın</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-user-tie feature-icon"></i>
+                    <h4>Ücretsiz Danışmanlık</h4>
+                    <p>Kariyer planlamanız için ücretsiz danışmanlık alın</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section reveal">
+        <div class="contact-form-container">
+            <h3 class="form-title">Bize Mesaj Gönderin</h3>
+            <p class="form-subtitle">Sorularınız, önerileriniz veya işbirliği teklifleriniz için bizimle iletişime geçin. En kısa sürede size dönüş yapacağız.</p>
+
+            <form class="contact-form" onsubmit="submitForm(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">
+                            <i class="fas fa-user"></i>Ad
+                        </label>
+                        <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Adınızı girin" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">
+                            <i class="fas fa-user"></i>Soyad
+                        </label>
+                        <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Soyadınızı girin" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="email">
+                            <i class="fas fa-envelope"></i>E-posta
+                        </label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="E-posta adresinizi girin" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">
+                            <i class="fas fa-phone"></i>Telefon
+                        </label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="Telefon numaranızı girin">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="subject">
+                        <i class="fas fa-tag"></i>Konu
+                    </label>
+                    <select id="subject" name="subject" class="form-select" required>
+                        <option value="">Konu seçiniz</option>
+                        <option value="course-info">Eğitim Programları Hakkında Bilgi</option>
+                        <option value="enrollment">Kayıt İşlemleri</option>
+                        <option value="technical-support">Teknik Destek</option>
+                        <option value="career-consulting">Kariyer Danışmanlığı</option>
+                        <option value="partnership">İş Birliği Önerisi</option>
+                        <option value="complaint">Şikayet / Öneri</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="message">
+                        <i class="fas fa-comment-dots"></i>Mesajınız
+                    </label>
+                    <textarea id="message" name="message" class="form-textarea" placeholder="Detaylı mesajınızı buraya yazabilirsiniz..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+                    Mesaj Gönder
+                </button>
+
+                <p class="form-note">
+                    <i class="fas fa-shield-alt"></i>
+                    Kişisel bilgileriniz gizli tutulacak ve 3. şahıslarla paylaşılmayacaktır.
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Migfer Kariyer</h3>
+                <p>Geleceğin teknolojilerini öğrenin, kariyerinizi şekillendirin.</p>
+                <br>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--teal); margin-right: 8px;"></i>Nilüfer, Bursa / Türkiye</p>
+                <p><i class="fas fa-phone" style="color: var(--teal); margin-right: 8px;"></i>+90 (224) 123 45 67</p>
+                <p><i class="fas fa-envelope" style="color: var(--teal); margin-right: 8px;"></i>info@migferkariyer.com</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Eğitim Kategorileri</h3>
+                <ul>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">Mobile Development</a></li>
+                    <li><a href="#">Data Science</a></li>
+                    <li><a href="#">Artificial Intelligence</a></li>
+                    <li><a href="#">Cloud Computing</a></li>
+                    <li><a href="#">Cyber Security</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#about">Hakkımızda</a></li>
+                    <li><a href="#services">Hizmetlerimiz</a></li>
+                    <li><a href="#courses">Eğitimler</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Sosyal Medya</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook" style="color: var(--teal); margin-right: 8px;"></i>Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram" style="color: var(--teal); margin-right: 8px;"></i>Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-twitter" style="color: var(--teal); margin-right: 8px;"></i>Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin" style="color: var(--teal); margin-right: 8px;"></i>LinkedIn</a></li>
+                    <li><a href="#"><i class="fab fa-youtube" style="color: var(--teal); margin-right: 8px;"></i>YouTube</a></li>
+                    <li><a href="#"><i class="fab fa-discord" style="color: var(--teal); margin-right: 8px;"></i>Discord</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Migfer Kariyer. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ====== MOBİL MENÜ FONKSİYONLARI ======
+
+        // Mobil menüyü açıp kapatan ana fonksiyon
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu'); // Mobil menü elementini seç
+            const toggle = document.querySelector('.mobile-menu-toggle'); // Menü açma butonunu seç
+
+            mobileMenu.classList.toggle('active'); // 'active' sınıfını ekle/çıkar (menüyü göster/gizle)
+            toggle.classList.toggle('active'); // Buton animasyonu için 'active' sınıfını ekle/çıkar
+        }
+
+        // Mobil menüyü kapatan fonksiyon
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu'); // Mobil menü elementini seç
+            const toggle = document.querySelector('.mobile-menu-toggle'); // Menü butonunu seç
+
+            mobileMenu.classList.remove('active'); // Menüyü gizle
+            toggle.classList.remove('active'); // Buton animasyonunu kaldır
+        }
+
+        // Menü dışında bir yere tıklandığında menüyü kapat
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+
+            // Tıklanan yer menü veya buton değilse menüyü kapat
+            if (!mobileMenu.contains(event.target) && !toggle.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // ====== SAYFA KAYDIRILDIĞINDA ORTAYA ÇIKMA ANİMASYONLARI ======
+
+        // Sayfada kaydırma yapıldığında elementleri ortaya çıkaran fonksiyon
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal'); // Animasyonlu elementleri seç
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight; // Pencere yüksekliği
+                var elementTop = reveals[i].getBoundingClientRect().top; // Elementin üst konumu
+                var elementVisible = 150; // Görünürlük eşiği (piksel)
+
+                // Element görünür alanda mı kontrol et
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active'); // Animasyonu başlat
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal); // Kaydırma olayını dinle
+        reveal(); // Sayfa yüklendiğinde de kontrol et
+
+        // ====== YUMUŞAK KAYDIRMA (SMOOTH SCROLLING) ======
+
+        // Navigasyon linklerine yumuşak kaydırma efekti ekle
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Varsayılan link davranışını engelle
+                const target = document.querySelector(this.getAttribute('href')); // Hedef elementi bul
+                if (target) {
+                    const headerOffset = 80; // Sabit header için boşluk
+                    const elementPosition = target.getBoundingClientRect().top; // Element pozisyonu
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset; // Hesaplanmış pozisyon
+
+                    // Yumuşak kaydırma yap
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    closeMobileMenu(); // Mobil menü açıksa kapat
+                }
+            });
+        });
+
+        // ====== VİDEO OYNATICI KONTROL ======
+
+        // Video oynatıldığında play butonunu gizle
+        document.querySelector('.video-background').addEventListener('play', function() {
+            document.querySelector('.play-button').style.opacity = '0';
+        });
+
+        // Video duraklatıldığında play butonunu göster
+        document.querySelector('.video-background').addEventListener('pause', function() {
+            document.querySelector('.play-button').style.opacity = '1';
+        });
+
+        // ====== İLETİŞİM FORMU GÖNDERİMİ ======
+
+        // Form gönderildiğinde çalışan fonksiyon
+        function submitForm(event) {
+            event.preventDefault(); // Sayfa yenilenmesini engelle
+
+            const submitBtn = event.target.querySelector('.submit-btn'); // Gönder butonunu seç
+            const originalText = submitBtn.innerHTML; // Butonun orijinal metnini sakla
+
+            // Yükleme durumunu göster
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Gönderiliyor...';
+            submitBtn.disabled = true; // Butonu devre dışı bırak
+
+            // Form gönderimi simülasyonu (gerçek form işleme ile değiştirilmeli)
+            setTimeout(() => {
+                // Başarı durumunu göster
+                submitBtn.innerHTML = '<i class="fas fa-check" style="margin-right: 8px;"></i>Gönderildi!';
+                submitBtn.style.background = 'var(--success-gradient)'; // Yeşil gradient
+
+                event.target.reset(); // Formu temizle
+
+                // Başarı mesajı göster
+                alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+
+                // 3 saniye sonra butonu eski haline getir
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.background = 'var(--primary-gradient)';
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, 2000);
+        }
+
+        // ====== PERFORMANS ODAKLI INTERSECTION OBSERVER ======
+
+        // Intersection Observer seçenekleri (performans için)
+        const observerOptions = {
+            threshold: 0.1, // Elementin %10'u göründüğünde tetikle
+            rootMargin: '0px 0px -50px 0px' // Alt kenardan 50px önce tetikle
+        };
+
+        // Elementler görünür alana girdiğinde animasyonu başlatan observer
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { // Element görünür alandaysa
+                    entry.target.classList.add('active'); // Animasyonu başlat
+                }
+            });
+        }, observerOptions);
+
+        // Tüm reveal elementlerini gözlemle
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ====== SAYFA YÜKLEME ANİMASYONU ======
+
+        // Sayfa tamamen yüklendiğinde fade-in efekti
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0'; // Önce görünmez yap
+            document.body.style.transition = 'opacity 0.5s ease'; // Geçiş efekti tanımla
+
+            setTimeout(() => {
+                document.body.style.opacity = '1'; // Görünür yap
+            }, 100);
+        });
+
+        // ====== MOBİL CİHAZ TESPİTİ ======
+
+        // Cihazın mobil olup olmadığını kontrol eden fonksiyon
+        function isMobile() {
+            return window.innerWidth <= 768; // 768px ve altı mobil kabul edilir
+        }
+
+        // ====== MOBİL PERFORMANS OPTİMİZASYONU ======
+
+        // Mobil cihazlarda hover animasyonlarını devre dışı bırak (performans için)
+        if (isMobile()) {
+            const style = document.createElement('style');
+            style.textContent = `
+                .service-card:hover,
+                .course-card:hover,
+                .instructor-card:hover,
+                .work-card:hover {
+                    transform: none !important; /* Hover animasyonlarını kaldır */
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // ====== PARALLAX EFEKTİ (SADECE DESKTOP) ======
+
+        // Desktop cihazlarda parallax (arka plan kaydırma) efekti
+        if (!isMobile()) {
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset; // Kaydırılan mesafe
+                const parallaxElements = document.querySelectorAll('.bg-animation'); // Parallax elementleri
+
+                parallaxElements.forEach(element => {
+                    const speed = 0.5; // Parallax hızı (0-1 arası)
+                    element.style.transform = `translateY(${scrolled * speed}px)`; // Y ekseninde kaydır
+                });
+            });
+        }
+
+        // ====== MOBİL DOKUNMA GERİ BİLDİRİMİ ======
+
+        // Dokunmatik cihazlarda butonlara basma efekti
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.service-card, .course-card, .instructor-card, .work-card, .btn-large, .submit-btn').forEach(element => {
+                // Dokunma başladığında küçült
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+
+                // Dokunma bittiğinde normale döndür
+                element.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        }
+
+        // ====== RESİMLER İÇİN LAZY LOADING ======
+
+        // Resimleri sadece görünür alana geldiklerinde yükle (performans için)
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { // Resim görünür alandaysa
+                        const img = entry.target;
+                        img.src = img.dataset.src; // data-src'den gerçek src'ye kopyala
+                        img.classList.remove('lazy'); // Lazy sınıfını kaldır
+                        imageObserver.unobserve(img); // Gözlemi durdur
+                    }
+                });
+            });
+
+            // data-src özelliği olan tüm resimleri gözlemle
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // ====== KRİTİK KAYNAKLARI ÖN YÜKLEME ======
+
+        // Önemli CSS dosyalarını önceden yükle
+        function preloadResources() {
+            const link = document.createElement('link');
+            link.rel = 'preload'; // Öncelikli yükleme
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
+            link.as = 'style'; // CSS olarak tanımla
+            document.head.appendChild(link);
+        }
+
+        preloadResources(); // Fonksiyonu çalıştır
+
+        // ====== VİDEO HATA YÖNETİMİ ======
+
+        // Video yüklenemezse gizle
+        document.querySelector('.video-background').addEventListener('error', function() {
+            console.log('Video failed to load, using fallback background');
+            this.style.display = 'none'; // Video elementini gizle
+        });
+
+        // ====== KLAVYE NAVİGASYONU ======
+
+        // ESC tuşuna basıldığında mobil menüyü kapat
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // ====== ERİŞİLEBİLİRLİK İÇİN FOCUS YÖNETİMİ ======
+
+        // Mobil menü açıldığında ilk linke odaklan
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            setTimeout(() => {
+                if (document.getElementById('mobileMenu').classList.contains('active')) {
+                    document.querySelector('.mobile-menu a').focus(); // İlk linke odaklan
+                }
+            }, 100);
+        });
+
+        // ====== FORM DOĞRULAMA GELİŞTİRMESİ ======
+
+        // Form alanlarına gerçek zamanlı doğrulama ekle
+        document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(input => {
+            // Alan odağını kaybettiğinde doğrula
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = '#4ade80'; // Geçerli = yeşil
+                } else if (this.value) {
+                    this.style.borderColor = '#ef4444'; // Geçersiz = kırmızı
+                }
+            });
+
+            // Alan odaklandığında mavi yap
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--teal)';
+            });
+        });
+
+        // ====== METIN ALANI OTOMATİK YENİDEN BOYUTLANDIRMA ======
+
+        // Textarea'ya yazıldıkça yüksekliğini artır
+        document.querySelector('#message').addEventListener('input', function() {
+            this.style.height = 'auto'; // Önce otomatik yap
+            this.style.height = this.scrollHeight + 'px'; // Sonra içeriğe göre ayarla
+        });
+
+        // ====== TELEFON NUMARASI FORMATLAMA ======
+
+        // Telefon numarasını Türk formatında formatla: (555) 123 45 67
+        document.querySelector('#phone').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, ''); // Sadece rakamları al
+            if (value.length >= 10) {
+                // Türk telefon formatına çevir
+                value = value.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '($1) $2 $3 $4');
+            }
+            this.value = value; // Formatlanmış değeri geri yaz
+        });
+    </script>
+</body>
+</html>

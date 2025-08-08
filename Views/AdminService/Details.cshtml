@@ -1,0 +1,453 @@
+﻿@model Migfer_Kariyer.Entities.Service
+@{
+    ViewData["Title"] = "Servis Detayları";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 2px solid #00ffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+    }
+
+        .header h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+    .back-link {
+        margin-bottom: 30px;
+    }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .back-link a:hover {
+                color: #764ba2;
+                transform: translateX(-5px);
+            }
+
+    .service-preview {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .service-icon-large {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .service-title-large {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .service-description-large {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    .detail-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: bold;
+        color: #495057;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .info-value {
+        flex: 2;
+        text-align: right;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 16px;
+        word-break: break-word;
+    }
+
+    .maddeler-section {
+        background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+        border: 2px solid #28a745;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    .maddeler-title {
+        color: #28a745;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .maddeler-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .maddeler-item {
+        background: white;
+        margin-bottom: 10px;
+        padding: 15px 20px;
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .maddeler-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .maddeler-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .maddeler-icon {
+        color: #28a745;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .maddeler-text {
+        color: #2c3e50;
+        font-size: 16px;
+        font-weight: 500;
+        flex: 1;
+    }
+
+    .no-maddeler {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        padding: 30px;
+        background: rgba(108, 117, 125, 0.1);
+        border-radius: 10px;
+        border: 2px dashed #6c757d;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 0 10px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        }
+
+    .stats-box {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stats-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    .empty-value {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .info-row
+
+    {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .info-value {
+        text-align: left;
+    }
+
+    .container {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .service-title-large {
+        font-size: 2rem;
+    }
+
+    .service-icon-large {
+        font-size: 3rem;
+    }
+
+    }
+</style>
+
+<div class="container">
+    <div class="back-link">
+        <a asp-action="Index">
+            ← Servis Listesine Dön
+        </a>
+    </div>
+
+    <div class="header">
+        <h1>🛠️ Servis Detayları</h1>
+    </div>
+
+    <!-- Service Preview -->
+    <div class="service-preview">
+        <div class="service-icon-large">
+            @if (!string.IsNullOrEmpty(Model.İkon))
+            {
+                @Html.Raw(Model.İkon)
+            }
+            else
+            {
+                <span>🛠️</span>
+            }
+        </div>
+        <div class="service-title-large">
+            @Model.Başlık
+        </div>
+        <div class="service-description-large">
+            @Model.Açıklama
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-box">
+        <div class="stats-number">@Model.Maddelers.Count</div>
+        <div class="stats-label">📋 Toplam Madde Sayısı</div>
+    </div>
+
+    <!-- Detailed Information -->
+    <div class="detail-card">
+        <div class="info-row">
+            <div class="info-label">
+                🆔 Servis ID
+            </div>
+            <div class="info-value">
+                #@Model.Id
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                🛠️ Servis Başlığı
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.Başlık))
+                {
+                    <strong>@Model.Başlık</strong>
+                }
+                else
+                {
+                    <span class="empty-value">Başlık belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📝 Açıklama
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.Açıklama))
+                {
+                    @Model.Açıklama
+                }
+                else
+                {
+                    <span class="empty-value">Açıklama belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                🎨 İkon Kodu
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.İkon))
+                {
+                    <code style="background: #f8f9fa; color: #e83e8c; padding: 4px 8px; border-radius: 4px;">@Model.İkon</code>
+                }
+                else
+                {
+                    <span class="empty-value">İkon belirtilmemiş</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Items/Maddeler -->
+    <div class="maddeler-section">
+        <div class="maddeler-title">
+            📋 Servis Maddeleri (@Model.Maddelers.Count)
+        </div>
+
+        @if (Model.Maddelers != null && Model.Maddelers.Any())
+        {
+            <ul class="maddeler-list">
+                @foreach (var madde in Model.Maddelers.OrderBy(m => m.Id))
+                {
+                    <li class="maddeler-item">
+                        <span class="maddeler-icon">✓</span>
+                        <span class="maddeler-text">@madde.Name</span>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="no-maddeler">
+                📝 Bu servise henüz madde eklenmemiş.<br>
+                <small>Düzenle butonunu kullanarak madde ekleyebilirsiniz.</small>
+            </div>
+        }
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            ✏️ Düzenle
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            📋 Listeye Dön
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+           onclick="return confirm('Bu servisi ve tüm maddelerini silmek istediğinizden emin misiniz?')">
+            🗑️ Sil
+        </a>
+    </div>
+</div>

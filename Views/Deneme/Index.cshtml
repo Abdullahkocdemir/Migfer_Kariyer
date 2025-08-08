@@ -1,0 +1,410 @@
+﻿@model IEnumerable<Migfer_Kariyer.Entities.Education>
+
+@{
+    ViewData["Title"] = "Eğitim Yönetimi";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eğitim Yönetimi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #00ffff;
+        }
+
+        h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+            margin: 0;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            color: #000;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #00ff00;
+            }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, #17a2b8, #007bff);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ffc107, #ff8c00);
+            color: #000;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .success-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+            .table th {
+                background: linear-gradient(45deg, #1a1a2e, #16213e);
+                color: #00ffff;
+                padding: 15px 10px;
+                text-align: left;
+                border: 1px solid #00ffff;
+                font-weight: bold;
+                text-shadow: 0 0 5px #00ffff;
+            }
+
+            .table td {
+                padding: 12px 10px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(255, 255, 255, 0.05);
+                transition: all 0.3s ease;
+            }
+
+            .table tr:hover td {
+                background: rgba(0, 255, 255, 0.1);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: #fff;
+        }
+
+        .badge-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: #fff;
+        }
+
+        .badge-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+            }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .stat-label {
+            color: #cccccc;
+            margin-top: 5px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #cccccc;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px dashed #666;
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .header {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .btn-group {
+            justify-content: center;
+        }
+
+        .table-container {
+            padding: 10px;
+        }
+
+        .table th, .table td {
+            padding: 8px 5px;
+            font-size: 12px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 EĞİTİM YÖNETİMİ</h1>
+            <a asp-action="Create" class="btn btn-primary">
+                ➕ YENİ EĞİTİM EKLE
+            </a>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="success-message">
+                ✅ @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <!-- İstatistikler -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">@Model.Count()</div>
+                <div class="stat-label">Toplam Eğitim</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">@Model.Count(e => e.IsActive)</div>
+                <div class="stat-label">Aktif Eğitim</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">@Model.Count(e => e.IsPopularCourse)</div>
+                <div class="stat-label">Popüler Kurs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">@Model.Sum(e => e.StudentCount)</div>
+                <div class="stat-label">Toplam Öğrenci</div>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>📚 Eğitim Adı</th>
+                            <th>👨‍🏫 Eğitmen</th>
+                            <th>👥 Öğrenci</th>
+                            <th>⏱️ Saat</th>
+                            <th>🌐 Dil</th>
+                            <th>🔥 Popüler</th>
+                            <th>✅ Durum</th>
+                            <th>⚙️ İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><strong>@item.Id</strong></td>
+                                <td><strong>@item.Name</strong></td>
+                                <td>@(item.Instructor?.NameSurname ?? "Belirtilmemiş")</td>
+                                <td>@item.StudentCount</td>
+                                <td>@item.CourseHours saat</td>
+                                <td>@item.Language</td>
+                                <td>
+                                    @if (item.IsPopularCourse)
+                                    {
+                                        <span class="badge badge-success">Evet</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary">Hayır</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge badge-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Pasif</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Detay">
+                                            👁️
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Düzenle">
+                                            ✏️
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Sil">
+                                            🗑️
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="no-data">
+                📚 Henüz eğitim eklenmemiş.<br>
+                <a asp-action="Create" class="btn btn-primary" style="margin-top: 20px;">
+                    ➕ İLK EĞİTİMİ EKLE
+                </a>
+            </div>
+        }
+    </div>
+
+    <script>
+        // DataTable benzeri basit sıralama özelliği
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.table tbody');
+            const rows = Array.from(table.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                const aValue = a.cells[columnIndex].textContent.trim();
+                const bValue = b.cells[columnIndex].textContent.trim();
+                return aValue.localeCompare(bValue);
+            });
+
+            rows.forEach(row => table.appendChild(row));
+        }
+
+        // Hover efektleri için ek JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

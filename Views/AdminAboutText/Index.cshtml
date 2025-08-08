@@ -1,0 +1,116 @@
+﻿@using Migfer_Kariyer.Entities
+@model List<AboutText>
+@{
+    ViewData["Title"] = "Hakkımızda Metinleri Listesi";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    .feature-badge {
+        display: inline-block;
+        background-color: #e3f2fd;
+        color: #0277bd;
+        padding: 5px 10px;
+        margin: 2px 4px 2px 0;
+        border-radius: 15px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-block;
+        line-height: 1.3;
+        color: white;
+    }
+
+        .status.active {
+            background-color: #1b5e20; /* Koyu yeşil */
+            border: 1px solid #145a17;
+        }
+
+        .status.passive {
+            background-color: #b71c1c; /* Koyu kırmızı */
+            border: 1px solid #a31818;
+        }
+
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px 20px;
+        margin: 20px 30px;
+        border-radius: 8px;
+        border: 1px solid #c3e6cb;
+        font-weight: 500;
+    }
+</style>
+
+<!-- AboutText Table -->
+<div class="data-table">
+    <div class="table-header">
+        <div class="table-title">📝 Hakkımızda Metinleri</div>
+        <a asp-action="Create" class="add-btn">+ Yeni Metin Ekle</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-message">
+            ✅ @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Başlık</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="education-name">
+                                <strong>@item.Başlık</strong>
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="status active">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="status passive">Pasif</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Detail" asp-route-id="@item.Id" class="action-btn view-btn">Görüntüle</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn edit-btn">Düzenle</a>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display: inline;"
+                                  onsubmit="return confirm('Bu metni silmek istediğinizden emin misiniz?')">
+                                <button type="submit" class="action-btn delete-btn">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <h4>📝 Henüz hakkımızda metni eklenmemiş</h4>
+            <p>İlk hakkımızda metnini eklemek için aşağıdaki butona tıklayın.</p>
+            <a asp-action="Create" class="add-btn">📝 İlk Metni Ekle</a>
+        </div>
+    }
+</div>

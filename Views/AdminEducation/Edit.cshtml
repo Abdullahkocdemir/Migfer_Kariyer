@@ -1,0 +1,1044 @@
+﻿@model Migfer_Kariyer.Models.EducationEditViewModel
+@{
+    ViewData["Title"] = "Eğitim Düzenle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eğitim Düzenle</title>
+    <!-- TinyMCE Script'i - API Anahtarıyla -->
+    <script src="https://cdn.tiny.cloud/1/kxdltrxw6nyvs3n8gp9fi4f0f7nx0avgvpxdqs0vm95961as/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        }
+
+        .info-box strong {
+            color: #00ffff;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"], input[type="url"], input[type="number"], input[type="file"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px dashed #00ff00;
+            cursor: pointer;
+        }
+
+            input[type="file"]:hover {
+                border-color: #00ffff;
+                background: rgba(0, 255, 255, 0.1);
+            }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #cccccc;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+            .checkbox-group input[type="checkbox"] {
+                width: auto;
+                margin-right: 8px;
+            }
+
+            .checkbox-group label {
+                margin-bottom: 0;
+                color: #ffff00;
+            }
+
+        .current-photo {
+            margin-top: 15px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+            .current-photo img {
+                max-width: 300px;
+                max-height: 200px;
+                border-radius: 8px;
+                border: 2px solid #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .file-preview {
+            margin-top: 15px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid #333;
+            display: none;
+        }
+
+            .file-preview img {
+                max-width: 300px;
+                max-height: 200px;
+                border-radius: 8px;
+                border: 2px solid #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .file-info {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #cccccc;
+        }
+
+        .file-upload-area {
+            position: relative;
+            border: 2px dashed #00ff00;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 255, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .file-upload-area:hover {
+                border-color: #00ffff;
+                background: rgba(0, 255, 255, 0.08);
+                transform: scale(1.02);
+            }
+
+            .file-upload-area.dragover {
+                border-color: #ff00ff;
+                background: rgba(255, 0, 255, 0.1);
+                transform: scale(1.05);
+            }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            color: #00ff00;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover .file-upload-icon {
+            color: #00ffff;
+            transform: scale(1.1);
+        }
+
+        .dynamic-fields-container {
+            border: 2px dashed #ff00ff;
+            border-radius: 15px;
+            padding: 25px;
+            background: rgba(255, 0, 255, 0.05);
+            min-height: 150px;
+            position: relative;
+        }
+
+        .field-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ffff00;
+            transition: all 0.3s ease;
+        }
+
+            .field-item:hover {
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
+            }
+
+        .field-input {
+            flex: 1;
+            margin-right: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+
+            .field-input:focus {
+                border-color: #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-add {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+            .btn-add:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #00ff00;
+            }
+
+        .btn-remove {
+            background: linear-gradient(45deg, #ff0040, #ff4000);
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+            .btn-remove:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px #ff0040;
+            }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #ffaa00;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .field-counter {
+            background: linear-gradient(45deg, #ffff00, #ff00ff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .no-fields-message {
+            text-align: center;
+            color: #cccccc;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px dashed #666;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ffaa00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* TinyMCE dark theme için özel stiller */
+        .tox-tinymce {
+            border: 1px solid #00ff00 !important;
+            border-radius: 8px !important;
+        }
+
+        .tox .tox-edit-area {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .form-row {
+            flex-direction: column;
+        }
+
+        .field-item {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .field-input {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Eğitim Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>✏️ EĞİTİM DÜZENLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 DÜZENLEME MODU:</strong>
+            <ul>
+                <li><strong>Mevcut Öğrenme Hedefleri:</strong> @ViewBag.ExistingWhatYouWillLearnNames</li>
+                <li><strong>Mevcut Gereksinimler:</strong> @ViewBag.ExistingRequirementsNames</li>
+                <li><strong>Mevcut İçerikler:</strong> @ViewBag.ExistingCourseContentsNames</li>
+                <li><small>Yeni alanlar ekleyerek mevcut alanları tamamen değiştirebilirsiniz.</small></li>
+                <li><small>Yeni fotoğraf yüklerseniz, mevcut fotoğraf değiştirilecektir.</small></li>
+                <li><small>Açıklamaları zengin metin editörü ile düzenleyebilirsiniz.</small></li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Temel Bilgiler -->
+            <div class="form-section">
+                <div class="section-title">📋 TEMEL BİLGİLER</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Name">📚 Eğitim Adı</label>
+                        <input asp-for="Name" placeholder="Eğitim adını girin" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="help-text">Örnek: Web Tasarım Kursu</div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Language">🌐 Dil</label>
+                        <input asp-for="Language" placeholder="Eğitim dili" />
+                        <span asp-validation-for="Language" class="text-danger"></span>
+                        <div class="help-text">Örnek: Türkçe, İngilizce</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="InstructorId">👨‍🏫 Eğitmen</label>
+                        <select asp-for="InstructorId" asp-items="ViewBag.InstructorId">
+                            <option value="">-- Eğitmen Seçin --</option>
+                        </select>
+                        <span asp-validation-for="InstructorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FeatureId">⭐ Özellik</label>
+                        <select asp-for="FeatureId" asp-items="ViewBag.FeatureId">
+                            <option value="">-- Özellik Seçin --</option>
+                        </select>
+                        <span asp-validation-for="FeatureId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="StudentCount">👥 Öğrenci Sayısı</label>
+                        <input asp-for="StudentCount" type="number" min="0" placeholder="25" />
+                        <span asp-validation-for="StudentCount" class="text-danger"></span>
+                        <div class="help-text">Kaç öğrenciyle çalışılacağını belirtin</div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CourseHours">⏱️ Kurs Saati</label>
+                        <input asp-for="CourseHours" type="number" min="1" placeholder="40" />
+                        <span asp-validation-for="CourseHours" class="text-danger"></span>
+                        <div class="help-text">Toplam kurs süresini saat olarak belirtin</div>
+                    </div>
+                </div>
+
+                <!-- Mevcut Fotoğraf ve Yeni Fotoğraf Yükleme -->
+                <div class="form-group">
+                    <label asp-for="PhotoFile">📷 Eğitim Fotoğrafı</label>
+
+                    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                    {
+                        <div class="current-photo">
+                            <h4 style="color: #00ffff; margin-bottom: 15px;">🖼️ Mevcut Fotoğraf:</h4>
+                            <img src="@Model.PhotoUrl" alt="Mevcut fotoğraf" />
+                            <div class="file-info">Mevcut fotoğraf yolu: @Model.PhotoUrl</div>
+                        </div>
+                    }
+
+                    <div class="file-upload-area" onclick="document.getElementById('photoFile').click()"
+                         ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                        <div class="file-upload-icon">📷</div>
+                        <div>
+                            <strong>Yeni fotoğraf yüklemek için tıklayın veya buraya sürükleyin</strong><br>
+                            <small>JPG, PNG, GIF formatları desteklenir (Max 5MB)</small><br>
+                            <small style="color: #ffaa00;">⚠️ Yeni fotoğraf yüklerseniz mevcut fotoğraf değiştirilir</small>
+                        </div>
+                        <input asp-for="PhotoFile" type="file" id="photoFile" accept="image/*"
+                               style="display: none;" onchange="previewImage(this)" />
+                    </div>
+                    <span asp-validation-for="PhotoFile" class="text-danger"></span>
+                    <div class="help-text">Eğitim için yeni kapak görseli yükleyebilirsiniz (isteğe bağlı)</div>
+
+                    <!-- Yeni Fotoğraf Önizleme -->
+                    <div class="file-preview" id="filePreview">
+                        <h4 style="color: #ff00ff; margin-bottom: 15px;">🆕 Yeni Fotoğraf Önizleme:</h4>
+                        <img id="previewImg" src="" alt="Önizleme" />
+                        <div class="file-info" id="fileInfo"></div>
+                        <button type="button" class="btn btn-remove" onclick="clearPreview()">🗑️ Temizle</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ShortDescription">📝 Kısa Açıklama</label>
+                    <textarea asp-for="ShortDescription" id="shortDescriptionEditor" rows="3" placeholder="Eğitim hakkında kısa bir açıklama yazın..."></textarea>
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                    <div class="help-text">Ana sayfada gösterilecek özet açıklama</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LongDescription">📖 Uzun Açıklama</label>
+                    <textarea asp-for="LongDescription" id="longDescriptionEditor" rows="5" placeholder="Eğitim hakkında detaylı açıklama yazın..."></textarea>
+                    <span asp-validation-for="LongDescription" class="text-danger"></span>
+                    <div class="help-text">Detay sayfasında gösterilecek kapsamlı açıklama</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input asp-for="IsPopularCourse" type="checkbox" />
+                            <label asp-for="IsPopularCourse">🔥 Popüler Kurs</label>
+                        </div>
+                        <div class="help-text">Ana sayfada öne çıkarılsın mı?</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input asp-for="IsActive" type="checkbox" />
+                            <label asp-for="IsActive">✅ Aktif</label>
+                        </div>
+                        <div class="help-text">Eğitim yayında görünsün mü?</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neler Öğreneceksiniz -->
+            <div class="form-section">
+                <div class="section-title">🎯 NELER ÖĞRENECEKSİNİZ</div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-add" onclick="addWhatYouWillLearnField()">
+                        ➕ YENİ ÖĞRENME HEDEFİ EKLE
+                    </button>
+
+                    <div class="dynamic-fields-container" id="whatYouWillLearnContainer">
+                        <div id="whatYouWillLearnWrapper">
+                            <!-- Dinamik alanlar buraya eklenecek -->
+                        </div>
+                        <div id="noWhatYouWillLearnMessage" class="no-fields-message">
+                            🎯 Henüz öğrenme hedefi eklenmedi.<br>
+                            Yukarıdaki "Yeni Öğrenme Hedefi Ekle" butonunu kullanarak başlayın.
+                        </div>
+                    </div>
+
+                    <div class="field-counter" id="whatYouWillLearnCounter">
+                        📊 TOPLAM HEDEF: <span id="whatYouWillLearnCount">0</span>
+                    </div>
+                    <div class="help-text">Öğrencilerin bu eğitimden neler öğreneceğini belirtin</div>
+                </div>
+            </div>
+
+            <!-- Gereksinimler -->
+            <div class="form-section">
+                <div class="section-title">✅ GEREKSİNİMLER</div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-add" onclick="addRequirementField()">
+                        ➕ YENİ GEREKSİNİM EKLE
+                    </button>
+
+                    <div class="dynamic-fields-container" id="requirementContainer">
+                        <div id="requirementWrapper">
+                            <!-- Dinamik alanlar buraya eklenecek -->
+                        </div>
+                        <div id="noRequirementMessage" class="no-fields-message">
+                            ✅ Henüz gereksinim eklenmedi.<br>
+                            Yukarıdaki "Yeni Gereksinim Ekle" butonunu kullanarak başlayın.
+                        </div>
+                    </div>
+
+                    <div class="field-counter" id="requirementCounter">
+                        📊 TOPLAM GEREKSİNİM: <span id="requirementCount">0</span>
+                    </div>
+                    <div class="help-text">Eğitime katılmak için gereken ön koşulları belirtin</div>
+                </div>
+            </div>
+
+            <!-- Kurs İçerikleri -->
+            <div class="form-section">
+                <div class="section-title">📚 KURS İÇERİKLERİ</div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-add" onclick="addCourseContentField()">
+                        ➕ YENİ İÇERİK EKLE
+                    </button>
+
+                    <div class="dynamic-fields-container" id="courseContentContainer">
+                        <div id="courseContentWrapper">
+                            <!-- Dinamik alanlar buraya eklenecek -->
+                        </div>
+                        <div id="noCourseContentMessage" class="no-fields-message">
+                            📚 Henüz kurs içeriği eklenmedi.<br>
+                            Yukarıdaki "Yeni İçerik Ekle" butonunu kullanarak başlayın.
+                        </div>
+                    </div>
+
+                    <div class="field-counter" id="courseContentCounter">
+                        📊 TOPLAM İÇERİK: <span id="courseContentCount">0</span>
+                    </div>
+                    <div class="help-text">Kursta işlenecek konuları ve modülleri belirtin</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 GÜNCELLE</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // TinyMCE Editörlerini başlat
+        tinymce.init({
+            selector: '#shortDescriptionEditor, #longDescriptionEditor',
+            height: 300,
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            plugins: [
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons',
+                'image', 'link', 'lists', 'searchreplace', 'table',
+                'visualblocks', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            content_style: 'body { font-family:Arial,sans-serif; font-size:14px; color:#ffffff; background-color:#2a2a2a; }',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
+
+        let whatYouWillLearnCounter = 0;
+        let requirementCounter = 0;
+        let courseContentCounter = 0;
+
+        // Fotoğraf önizleme fonksiyonu
+        function previewImage(input) {
+            const preview = document.getElementById('filePreview');
+            const previewImg = document.getElementById('previewImg');
+            const fileInfo = document.getElementById('fileInfo');
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+
+                // Dosya boyutu kontrolü (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Dosya boyutu 5MB\'dan büyük olamaz!');
+                    input.value = '';
+                    return;
+                }
+
+                // Dosya tipi kontrolü
+                if (!file.type.startsWith('image/')) {
+                    alert('Lütfen sadece resim dosyası seçin!');
+                    input.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    fileInfo.innerHTML = `
+                        <strong>📁 ${file.name}</strong><br>
+                        📊 ${(file.size / 1024).toFixed(1)} KB<br>
+                        🎨 ${file.type}
+                    `;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Önizlemeyi temizleme
+        function clearPreview() {
+            document.getElementById('photoFile').value = '';
+            document.getElementById('filePreview').style.display = 'none';
+            document.getElementById('previewImg').src = '';
+            document.getElementById('fileInfo').innerHTML = '';
+        }
+
+        // Drag & Drop işlevleri
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const fileInput = document.getElementById('photoFile');
+                fileInput.files = files;
+                previewImage(fileInput);
+            }
+        }
+
+        // Neler Öğreneceksiniz Fonksiyonları
+        function addWhatYouWillLearnField() {
+            const wrapper = document.getElementById('whatYouWillLearnWrapper');
+            const noFieldsMsg = document.getElementById('noWhatYouWillLearnMessage');
+
+            if (whatYouWillLearnCounter === 0) {
+                noFieldsMsg.style.display = 'none';
+            }
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.innerHTML = `
+                <input type="text"
+                       name="WhatYouWillLearnFields[${whatYouWillLearnCounter}]"
+                       class="field-input"
+                       placeholder="🎯 Öğrenme hedefi girin (örn: HTML5 ve CSS3 kullanımı)"
+                       onchange="updateWhatYouWillLearnCount()" />
+                <button type="button" class="btn btn-remove" onclick="removeWhatYouWillLearnField(this)">
+                    🗑️ KALDIR
+                </button>
+            `;
+
+            wrapper.appendChild(fieldDiv);
+            whatYouWillLearnCounter++;
+            updateWhatYouWillLearnCount();
+            fieldDiv.querySelector('input').focus();
+            fieldDiv.style.animation = 'glow 1s ease-in-out';
+        }
+
+        function removeWhatYouWillLearnField(button) {
+            const wrapper = document.getElementById('whatYouWillLearnWrapper');
+            const noFieldsMsg = document.getElementById('noWhatYouWillLearnMessage');
+
+            button.parentElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                button.parentElement.remove();
+                if (wrapper.children.length === 0) {
+                    noFieldsMsg.style.display = 'block';
+                }
+                updateWhatYouWillLearnCount();
+            }, 300);
+        }
+
+        function updateWhatYouWillLearnCount() {
+            const fields = document.querySelectorAll('#whatYouWillLearnWrapper .field-item input');
+            document.getElementById('whatYouWillLearnCount').textContent = fields.length;
+        }
+
+        // Gereksinimler Fonksiyonları
+        function addRequirementField() {
+            const wrapper = document.getElementById('requirementWrapper');
+            const noFieldsMsg = document.getElementById('noRequirementMessage');
+
+            if (requirementCounter === 0) {
+                noFieldsMsg.style.display = 'none';
+            }
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.innerHTML = `
+                <input type="text"
+                       name="RequirementFields[${requirementCounter}]"
+                       class="field-input"
+                       placeholder="✅ Gereksinim girin (örn: Temel bilgisayar kullanımı)"
+                       onchange="updateRequirementCount()" />
+                <button type="button" class="btn btn-remove" onclick="removeRequirementField(this)">
+                    🗑️ KALDIR
+                </button>
+            `;
+
+            wrapper.appendChild(fieldDiv);
+            requirementCounter++;
+            updateRequirementCount();
+            fieldDiv.querySelector('input').focus();
+            fieldDiv.style.animation = 'glow 1s ease-in-out';
+        }
+
+        function removeRequirementField(button) {
+            const wrapper = document.getElementById('requirementWrapper');
+            const noFieldsMsg = document.getElementById('noRequirementMessage');
+
+            button.parentElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                button.parentElement.remove();
+                if (wrapper.children.length === 0) {
+                    noFieldsMsg.style.display = 'block';
+                }
+                updateRequirementCount();
+            }, 300);
+        }
+
+        function updateRequirementCount() {
+            const fields = document.querySelectorAll('#requirementWrapper .field-item input');
+            document.getElementById('requirementCount').textContent = fields.length;
+        }
+
+        // Kurs İçerikleri Fonksiyonları
+        function addCourseContentField() {
+            const wrapper = document.getElementById('courseContentWrapper');
+            const noFieldsMsg = document.getElementById('noCourseContentMessage');
+
+            if (courseContentCounter === 0) {
+                noFieldsMsg.style.display = 'none';
+            }
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.innerHTML = `
+                <input type="text"
+                       name="CourseContentFields[${courseContentCounter}]"
+                       class="field-input"
+                       placeholder="📚 İçerik başlığı girin (örn: JavaScript Temelleri)"
+                       onchange="updateCourseContentCount()" />
+                <button type="button" class="btn btn-remove" onclick="removeCourseContentField(this)">
+                    🗑️ KALDIR
+                </button>
+            `;
+
+            wrapper.appendChild(fieldDiv);
+            courseContentCounter++;
+            updateCourseContentCount();
+            fieldDiv.querySelector('input').focus();
+            fieldDiv.style.animation = 'glow 1s ease-in-out';
+        }
+
+        function removeCourseContentField(button) {
+            const wrapper = document.getElementById('courseContentWrapper');
+            const noFieldsMsg = document.getElementById('noCourseContentMessage');
+
+            button.parentElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                button.parentElement.remove();
+                if (wrapper.children.length === 0) {
+                    noFieldsMsg.style.display = 'block';
+                }
+                updateCourseContentCount();
+            }, 300);
+        }
+
+        function updateCourseContentCount() {
+            const fields = document.querySelectorAll('#courseContentWrapper .field-item input');
+            document.getElementById('courseContentCount').textContent = fields.length;
+        }
+
+        // Sayfa yüklendiğinde mevcut alanları göster (düzenleme modunda)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mevcut WhatYouWillLearn alanlarını ekle
+            @if (Model.ExistingWhatYouWillLearn != null && Model.ExistingWhatYouWillLearn.Any())
+            {
+                        @foreach (var field in Model.ExistingWhatYouWillLearn)
+                        {
+                                    <text>
+                                    addWhatYouWillLearnField();
+                                    document.querySelector('#whatYouWillLearnWrapper .field-item:last-child input').value = '@Html.Raw(field.Replace("'", "\\'"))';
+                                    </text>
+                        }
+            }
+            else
+            {
+                        <text>addWhatYouWillLearnField();</text>
+            }
+
+            // Mevcut Requirements alanlarını ekle
+            @if (Model.ExistingRequirements != null && Model.ExistingRequirements.Any())
+            {
+                        @foreach (var field in Model.ExistingRequirements)
+                        {
+                                    <text>
+                                    addRequirementField();
+                                    document.querySelector('#requirementWrapper .field-item:last-child input').value = '@Html.Raw(field.Replace("'", "\\'"))';
+                                    </text>
+                        }
+            }
+            else
+            {
+                        <text>addRequirementField();</text>
+            }
+
+            // Mevcut CourseContents alanlarını ekle
+            @if (Model.ExistingCourseContents != null && Model.ExistingCourseContents.Any())
+            {
+                        @foreach (var field in Model.ExistingCourseContents)
+                        {
+                                    <text>
+                                    addCourseContentField();
+                                    document.querySelector('#courseContentWrapper .field-item:last-child input').value = '@Html.Raw(field.Replace("'", "\\'"))';
+                                    </text>
+                        }
+            }
+            else
+            {
+                        <text>addCourseContentField();</text>
+            }
+
+            updateWhatYouWillLearnCount();
+            updateRequirementCount();
+            updateCourseContentCount();
+        });
+
+        // CSS animasyonları
+        const style = document.createElement('style');
+        style.textContent = `
+            @@keyframes fadeOut {
+                from { opacity: 1; transform: scale(1); }
+                to { opacity: 0; transform: scale(0.8); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

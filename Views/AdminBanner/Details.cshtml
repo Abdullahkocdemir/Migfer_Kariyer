@@ -1,0 +1,370 @@
+﻿@model Migfer_Kariyer.Entities.Banner
+@{
+    ViewData["Title"] = "Banner Detayları";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 2px solid #00ffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+    }
+
+        .header h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+    .back-link {
+        margin-bottom: 30px;
+    }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .back-link a:hover {
+                color: #764ba2;
+                transform: translateX(-5px);
+            }
+
+    .detail-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        font-weight: bold;
+        color: #495057;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .info-value {
+        flex: 2;
+        text-align: right;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 16px;
+        word-break: break-all;
+    }
+
+    .video-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .video-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+    .empty-value {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 14px;
+    }
+
+    .banner-title-display {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .banner-description-display {
+        font-size: 16px;
+        color: #495057;
+        text-align: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 0 10px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        }
+
+    .video-preview {
+        margin-top: 10px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+    }
+
+    .video-iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    @@media (max-width: 768px) {
+        .info-row {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .info-value {
+            text-align: left;
+        }
+
+        .container {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="back-link">
+        <a asp-action="Index">
+            ← Banner Listesine Dön
+        </a>
+    </div>
+
+    <div class="header">
+        <h1>🎬 Banner Detayları</h1>
+    </div>
+
+    <!-- Banner Preview -->
+    @if (!string.IsNullOrEmpty(Model.Başlık))
+    {
+        <div class="banner-title-display">
+            @Model.Başlık
+        </div>
+    }
+    <br />
+    <br />
+    @if (!string.IsNullOrEmpty(Model.KüçükAçıklama))
+    {
+        <div class="banner-description-display">
+            @Model.KüçükAçıklama
+        </div>
+    }
+    <br />    <br />
+    <!-- Detailed Information -->
+    <div class="detail-card">
+        <div class="info-row">
+            <div class="info-label">
+                🆔 Banner ID
+            </div>
+            <div class="info-value">
+                #@Model.Id
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📝 Başlık
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.Başlık))
+                {
+                    <strong>@Model.Başlık</strong>
+                }
+                else
+                {
+                    <span class="empty-value">Başlık belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                📋 Küçük Açıklama
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.KüçükAçıklama))
+                {
+                    @Model.KüçükAçıklama
+                }
+                else
+                {
+                    <span class="empty-value">Açıklama belirtilmemiş</span>
+                }
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">
+                🎥 Video URL
+            </div>
+            <div class="info-value">
+                @if (!string.IsNullOrEmpty(Model.VideoUrl))
+                {
+                    <a href="@Model.VideoUrl" target="_blank" class="video-link">
+                        🔗 Video Linki
+                    </a>
+                    <div style="font-size: 12px; color: #6c757d; margin-top: 5px;">
+                        @Model.VideoUrl
+                    </div>
+                }
+                else
+                {
+                    <span class="empty-value">Video URL belirtilmemiş</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Preview (if YouTube) -->
+    @if (!string.IsNullOrEmpty(Model.VideoUrl) && (Model.VideoUrl.Contains("youtube.com") || Model.VideoUrl.Contains("youtu.be")))
+    {
+        <div class="video-preview">
+            <h4 style="color: #495057; margin-bottom: 15px;">🎬 Video Önizleme:</h4>
+            @{
+                string videoId = "";
+                if (Model.VideoUrl.Contains("youtube.com/watch?v="))
+                {
+                    videoId = Model.VideoUrl.Split("v=")[1].Split("&")[0];
+                }
+                else if (Model.VideoUrl.Contains("youtu.be/"))
+                {
+                    videoId = Model.VideoUrl.Split("youtu.be/")[1].Split("?")[0];
+                }
+            }
+            @if (!string.IsNullOrEmpty(videoId))
+            {
+                <iframe class="video-iframe"
+                        src="https://www.youtube.com/embed/@videoId"
+                        allowfullscreen>
+                </iframe>
+            }
+        </div>
+    }
+
+    <!-- Actions -->
+    <div class="actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            ✏️ Düzenle
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            📋 Listeye Dön
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+           onclick="return confirm('Bu banner\'ı silmek istediğinizden emin misiniz?')">
+            🗑️ Sil
+        </a>
+    </div>
+</div>

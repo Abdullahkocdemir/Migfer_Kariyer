@@ -1,0 +1,429 @@
+﻿@{
+    ViewData["Title"] = "Web";
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Web";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hizmetlerimiz - CodeMaster Academy</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/Web.css" />
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">CodeMaster</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#services">Hizmetlerimiz</a></li>
+                    <li><a href="#courses">Eğitimler</a></li>
+                    <li><a href="#works">Projelerimiz</a></li>
+                    <li><a href="#about">Hakkımızda</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <a href="#" class="cta-button">Ücretsiz Deneme</a>
+        </div>
+
+        <!-- Mobile Menu -->
+        <nav class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="closeMobileMenu()">Ana Sayfa</a></li>
+                <li><a href="#services" onclick="closeMobileMenu()">Hizmetlerimiz</a></li>
+                <li><a href="#courses" onclick="closeMobileMenu()">Eğitimler</a></li>
+                <li><a href="#works" onclick="closeMobileMenu()">Projelerimiz</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">Hakkımızda</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">İletişim</a></li>
+                <li><a href="#" onclick="closeMobileMenu()">Ücretsiz Deneme</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Services Hero Section -->
+    <section class="services-hero">
+        <div class="hero-content">
+            <h1>Hizmetlerimiz</h1>
+            <p>Teknoloji dünyasında öne çıkmanız için ihtiyacınız olan tüm beceri ve bilgileri, sektörün en deneyimli uzmanlarından öğrenin. Modern yaklaşımlar, uygulamalı projeler ve bireysel mentörlük desteği ile kariyerinizi bir üst seviyeye taşıyın.</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section reveal">
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-code service-icon"></i>
+                <h3>Web Development</h3>
+                <p>Modern web teknolojileri ile responsive ve performanslı web siteleri geliştirme</p>
+                <ul class="service-features">
+                    <li>React, Vue.js, Angular eğitimleri</li>
+                    <li>Node.js ve Express.js backend geliştirme</li>
+                    <li>MongoDB, PostgreSQL veritabanı yönetimi</li>
+                    <li>RESTful API ve GraphQL servisleri</li>
+                    <li>DevOps ve deployment süreçleri</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-mobile-alt service-icon"></i>
+                <h3>Mobile Development</h3>
+                <p>iOS ve Android platformları için native ve cross-platform mobil uygulama geliştirme</p>
+                <ul class="service-features">
+                    <li>React Native ile cross-platform geliştirme</li>
+                    <li>Swift ile iOS uygulama geliştirme</li>
+                    <li>Kotlin ile Android uygulama geliştirme</li>
+                    <li>Flutter framework eğitimi</li>
+                    <li>App Store ve Play Store yayınlama</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-robot service-icon"></i>
+                <h3>Artificial Intelligence</h3>
+                <p>Makine öğrenmesi, derin öğrenme ve yapay zeka çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>Python ve TensorFlow ile ML</li>
+                    <li>Computer Vision projeleri</li>
+                    <li>Natural Language Processing</li>
+                    <li>Deep Learning algoritmaları</li>
+                    <li>AI model deployment</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-cloud service-icon"></i>
+                <h3>Cloud Computing</h3>
+                <p>AWS, Azure ve Google Cloud platformlarında bulut çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>AWS servisleri ve mimarisi</li>
+                    <li>Docker ve Kubernetes</li>
+                    <li>Serverless computing</li>
+                    <li>CI/CD pipeline kurulumu</li>
+                    <li>Cloud security best practices</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-shield-alt service-icon"></i>
+                <h3>Cyber Security</h3>
+                <p>Siber güvenlik, etik hackerlik ve penetrasyon testleri konularında uzmanlaşma</p>
+                <ul class="service-features">
+                    <li>Ethical hacking teknikleri</li>
+                    <li>Network security analizi</li>
+                    <li>Web application security</li>
+                    <li>Incident response procedures</li>
+                    <li>Security compliance ve standards</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-chart-bar service-icon"></i>
+                <h3>Data Science</h3>
+                <p>Veri analizi, görselleştirme ve büyük veri çözümleri geliştirme</p>
+                <ul class="service-features">
+                    <li>Python ile veri analizi</li>
+                    <li>Pandas, NumPy, Matplotlib</li>
+                    <li>SQL ve NoSQL veritabanları</li>
+                    <li>Data visualization tools</li>
+                    <li>Big Data ve Apache Spark</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section reveal">
+        <h2 class="section-title">Neden CodeMaster Academy?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                <h4>Uzman Eğitmenler</h4>
+                <p>Sektörde 5+ yıl deneyime sahip, gerçek projelerde çalışmış uzmanlardan öğrenin</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-project-diagram feature-icon"></i>
+                <h4>Proje Tabanlı Öğrenme</h4>
+                <p>Gerçek dünya projeleri ile portfolyonuzu güçlendirin ve iş deneyimi kazanın</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-hands-helping feature-icon"></i>
+                <h4>Mentörlük Desteği</h4>
+                <p>1-on-1 mentörlük seansları ile kişisel gelişiminizi hızlandırın</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-users feature-icon"></i>
+                <h4>Topluluk Ağı</h4>
+                <p>50.000+ üyeli toplulukta networking yapın ve kariyer fırsatları keşfedin</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h4>Kariyer Rehberliği</h4>
+                <p>CV hazırlama, mülakat teknikleri ve iş arama süreçlerinde destek alın</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-certificate feature-icon"></i>
+                <h4>Sertifikasyon</h4>
+                <p>Sektörde geçerli sertifikalar ile profesyonel yetkinliğinizi belgeleyin</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-clock feature-icon"></i>
+                <h4>Esnek Öğrenme</h4>
+                <p>Kendi hızınızda öğrenin, 7/24 erişim ve tekrar izleme imkanı</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-rocket feature-icon"></i>
+                <h4>Güncel İçerik</h4>
+                <p>Sektördeki son gelişmeleri takip eden sürekli güncellenen müfredat</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CodeMaster Academy</h3>
+                <p>Geleceğin teknolojilerini öğrenin, kariyerinizi şekillendirin.</p>
+                <br>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--teal); margin-right: 8px;"></i>Nilüfer, Bursa / Türkiye</p>
+                <p><i class="fas fa-phone" style="color: var(--teal); margin-right: 8px;"></i>+90 (224) 123 45 67</p>
+                <p><i class="fas fa-envelope" style="color: var(--teal); margin-right: 8px;"></i>info@codemasteracademy.com</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Eğitim Kategorileri</h3>
+                <ul>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">Mobile Development</a></li>
+                    <li><a href="#">Data Science</a></li>
+                    <li><a href="#">Artificial Intelligence</a></li>
+                    <li><a href="#">Cloud Computing</a></li>
+                    <li><a href="#">Cyber Security</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#about">Hakkımızda</a></li>
+                    <li><a href="#services">Hizmetlerimiz</a></li>
+                    <li><a href="#courses">Eğitimler</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Sosyal Medya</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook" style="color: var(--teal); margin-right: 8px;"></i>Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram" style="color: var(--teal); margin-right: 8px;"></i>Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-twitter" style="color: var(--teal); margin-right: 8px;"></i>Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin" style="color: var(--teal); margin-right: 8px;"></i>LinkedIn</a></li>
+                    <li><a href="#"><i class="fab fa-youtube" style="color: var(--teal); margin-right: 8px;"></i>YouTube</a></li>
+                    <li><a href="#"><i class="fab fa-discord" style="color: var(--teal); margin-right: 8px;"></i>Discord</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 CodeMaster Academy. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+
+            mobileMenu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+
+            mobileMenu.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+
+            if (!mobileMenu.contains(event.target) && !toggle.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Reveal animations on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Check on load
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Header background scroll effect - REMOVED TO KEEP SAME COLOR
+        // The header will now maintain the same color regardless of scroll position
+
+        // Intersection Observer for better performance
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all reveal elements
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Optimize animations for mobile
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // Reduce animations on mobile for better performance
+        if (isMobile()) {
+            const style = document.createElement('style');
+            style.textContent = `
+                .service-card:hover,
+                .feature-item:hover {
+                    transform: none !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Parallax effect for desktop - REMOVED TO PREVENT BACKGROUND COLOR CHANGE
+        // Background will now remain static to maintain consistent colors
+
+        // Touch feedback for mobile
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.service-card, .feature-item, .cta-button').forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+
+                element.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        }
+
+        // Preload critical resources
+        function preloadResources() {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
+            link.as = 'style';
+            document.head.appendChild(link);
+        }
+
+        preloadResources();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // Focus management for accessibility
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            setTimeout(() => {
+                if (document.getElementById('mobileMenu').classList.contains('active')) {
+                    document.querySelector('.mobile-menu a').focus();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

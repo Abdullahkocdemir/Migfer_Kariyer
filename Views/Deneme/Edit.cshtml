@@ -1,0 +1,545 @@
+﻿@model InstructorCreateViewModel
+@{
+    ViewData["Title"] = ViewBag.InstructorId != null ? "Eğitmen Düzenle" : "Yeni Eğitmen Ekle";
+    Layout = "~/Views/Layout/Index.cshtml";
+    var isEdit = ViewBag.InstructorId != null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@(isEdit ? "Eğitmen Düzenle" : "Yeni Eğitmen Ekle")</title>
+    <style>
+        /* --- Aynı modern CSS stilini buraya aldım --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        }
+
+        .info-box strong {
+            color: #00ffff;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 18px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"], input[type="email"], textarea, select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+            input:focus, textarea:focus, select:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            input::placeholder, textarea::placeholder {
+                color: #cccccc;
+            }
+
+        .dynamic-fields-container {
+            border: 2px dashed #ff00ff;
+            border-radius: 15px;
+            padding: 25px;
+            background: rgba(255, 0, 255, 0.05);
+            min-height: 150px;
+            position: relative;
+        }
+
+        .field-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ffff00;
+            transition: all 0.3s ease;
+        }
+
+            .field-item:hover {
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            }
+
+        .field-input {
+            flex: 1;
+            margin-right: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+
+            .field-input:focus {
+                border-color: #00ffff;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-add {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+            .btn-add:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #00ff00;
+            }
+
+        .btn-remove {
+            background: linear-gradient(45deg, #ff0040, #ff4000);
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+            .btn-remove:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px #ff0040;
+            }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #00ffff;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .field-counter {
+            background: linear-gradient(45deg, #ffff00, #ff00ff);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .no-fields-message {
+            text-align: center;
+            color: #cccccc;
+            font-style: italic;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px dashed #666;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ff00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .field-item {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .field-input {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a href="@Url.Action("List", "Deneme")">
+                ← Eğitmen Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            @(isEdit ? "✏️ EĞİTMEN DÜZENLE" : "➕ YENİ EĞİTMEN EKLE")
+        </h1>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="@(isEdit ? "Edit" : "Index")" asp-route-id="@(isEdit ? ViewBag.InstructorId : null)" method="post">
+
+            <div class="form-section">
+                <div class="section-title">👤 KİŞİSEL BİLGİLER</div>
+
+                <div class="form-group">
+                    <label>👤 Ad Soyad</label>
+                    <input asp-for="NameSurname" placeholder="Eğitmenin adını ve soyadını girin" />
+                    <span asp-validation-for="NameSurname" class="text-danger"></span>
+                    <div class="help-text">Örnek: Prof. Dr. Ahmet Yılmaz</div>
+                </div>
+
+                <div class="form-group">
+                    <label>👥 Öğrenci Sayısı</label>
+                    <input asp-for="StudentCount" placeholder="Örnek: 25" />
+                    <span asp-validation-for="StudentCount" class="text-danger"></span>
+                    <div class="help-text">Kaç öğrenciyle çalıştığını belirtin</div>
+                </div>
+
+                <div class="form-group">
+                    <label>⏱️ Deneyim</label>
+                    <input asp-for="Experience" placeholder="Örnek: 5 yıl" />
+                    <span asp-validation-for="Experience" class="text-danger"></span>
+                    <div class="help-text">Toplam çalışma deneyimini belirtin</div>
+                </div>
+
+                <div class="form-group">
+                    <label>📧 E-posta</label>
+                    <input asp-for="Email" placeholder="E-posta adresi girin" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>📞 Telefon Numarası</label>
+                    <input asp-for="PhoneNumber" placeholder="Telefon numarası girin" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Durum</label>
+                    <select asp-for="IsActive">
+                        <option value="true" style="color:blue">Aktif</option>
+                        <option value="false" style="color:blue">Pasif</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">🎯 UZMANLIK ALANLARI</div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-add" onclick="addNewField()">
+                        ➕ YENİ ALAN EKLE
+                    </button>
+
+                    <div class="dynamic-fields-container" id="dynamicFieldsContainer">
+                        <div id="fieldsWrapper">
+                            <!-- Dinamik alanlar buraya eklenecek -->
+                        </div>
+                        <div id="noFieldsMessage" class="no-fields-message">
+                            🎯 Henüz uzmanlık alanı eklenmedi.<br>
+                            Yukarıdaki "Yeni Alan Ekle" butonunu kullanarak başlayın.
+                        </div>
+                    </div>
+
+                    <div class="field-counter" id="fieldCounter">
+                        📊 TOPLAM ALAN: <span id="fieldCount">0</span>
+                    </div>
+                    <div class="help-text">Her "Yeni Alan Ekle" butonuna tıklayarak yeni uzmanlık alanları ekleyin. Tüm alanlar bir kerede kaydedilecek.</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    @(isEdit ? "💾 GÜNCELLE" : "💾 KAYDET")
+                </button>
+                <a href="@Url.Action("List", "Deneme")" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let fieldCounter = 0;
+
+        function addNewField() {
+            const wrapper = document.getElementById('fieldsWrapper');
+            const noFieldsMsg = document.getElementById('noFieldsMessage');
+
+            if (fieldCounter === 0) {
+                noFieldsMsg.style.display = 'none';
+            }
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.innerHTML = `
+                <input type="text"
+                       name="DynamicFields[${fieldCounter}]"
+                       class="field-input"
+                       placeholder="🎯 Uzmanlık alanı girin (örn: Web Tasarım, Yapay Zeka)"
+                       onchange="updateFieldCount()" />
+                <button type="button" class="btn btn-remove" onclick="removeField(this)">
+                    🗑️ KALDIR
+                </button>
+            `;
+
+            wrapper.appendChild(fieldDiv);
+            fieldCounter++;
+            updateFieldCount();
+            fieldDiv.querySelector('input').focus();
+            fieldDiv.style.animation = 'glow 1s ease-in-out';
+        }
+
+        function removeField(button) {
+            const wrapper = document.getElementById('fieldsWrapper');
+            const noFieldsMsg = document.getElementById('noFieldsMessage');
+
+            button.parentElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                button.parentElement.remove();
+
+                if (wrapper.children.length === 0) {
+                    noFieldsMsg.style.display = 'block';
+                }
+                updateFieldCount();
+            }, 300);
+        }
+
+        function updateFieldCount() {
+            const fields = document.querySelectorAll('#fieldsWrapper .field-item input');
+            document.getElementById('fieldCount').textContent = fields.length;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            @if (isEdit && Model.DynamicFields != null)
+            {
+                    foreach (var field in Model.DynamicFields)
+                    {
+                            <text>
+                            addNewField();
+                            document.querySelector('#fieldsWrapper .field-item:last-child input').value = '@Html.Raw(field.Replace("'", "\\'"))';
+                            </text>
+                    }
+            }
+
+            if (fieldCounter === 0 && !isEdit) {
+                addNewField();
+            }
+
+            updateFieldCount();
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @@keyframes fadeOut {
+                from { opacity: 1; transform: scale(1); }
+                to { opacity: 0; transform: scale(0.8); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

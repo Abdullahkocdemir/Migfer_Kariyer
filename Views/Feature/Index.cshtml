@@ -1,0 +1,275 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+@model IEnumerable<Migfer_Kariyer.Entities.Feature>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Özellikler</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            animation: rainbow-bg 5s infinite;
+            font-family: 'Comic Sans MS', cursive;
+            margin: 0;
+            padding: 20px;
+        }
+
+        @@keyframes rainbow-bg {
+            0%
+
+        {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+        }
+
+        25% {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff6b6b);
+        }
+
+        50% {
+            background: linear-gradient(45deg, #45b7d1, #96ceb4, #feca57, #ff6b6b, #4ecdc4);
+        }
+
+        75% {
+            background: linear-gradient(45deg, #96ceb4, #feca57, #ff6b6b, #4ecdc4, #45b7d1);
+        }
+
+        100% {
+            background: linear-gradient(45deg, #feca57, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        }
+
+        }
+
+        @@keyframes shake {
+            0%, 100%
+
+        {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-10px) rotate(-5deg);
+        }
+
+        75% {
+            transform: translateX(10px) rotate(5deg);
+        }
+
+        }
+
+        @@keyframes bounce {
+            0%, 100%
+
+        {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+
+        }
+
+        @@keyframes glow {
+            0%, 100%
+
+        {
+            box-shadow: 0 0 20px purple;
+        }
+
+        50% {
+            box-shadow: 0 0 40px pink, 0 0 60px cyan;
+        }
+
+        }
+
+        .title {
+            font-size: 50px;
+            color: red;
+            text-align: center;
+            font-family: 'Brush Script MT';
+            text-shadow: 5px 5px 10px black, -5px -5px 10px yellow;
+            background: linear-gradient(red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shake 2s infinite;
+            margin-bottom: 30px;
+        }
+
+        .add-button {
+            font-size: 24px;
+            background: linear-gradient(45deg, lime, cyan);
+            color: black;
+            padding: 20px 40px;
+            text-decoration: none;
+            border: 8px double purple;
+            border-radius: 30px;
+            font-family: 'Arial Black';
+            text-shadow: 2px 2px white;
+            box-shadow: 0 0 30px pink;
+            animation: bounce 3s infinite;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 15px ridge gold;
+            border-radius: 25px;
+            padding: 20px;
+            animation: glow 3s infinite;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px;
+            background: linear-gradient(45deg, lightpink, lightblue, lightgreen, lightyellow);
+            border-radius: 20px;
+            padding: 15px;
+        }
+
+        th {
+            background: linear-gradient(135deg, darkred, red, orange);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+            text-align: center;
+            border: 5px solid black;
+            border-radius: 15px;
+            text-shadow: 2px 2px black;
+            font-family: 'Impact';
+        }
+
+        td {
+            background: linear-gradient(135deg, white, lightcyan, lightyellow);
+            padding: 18px;
+            text-align: center;
+            border: 5px solid navy;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .id-cell {
+            background: linear-gradient(45deg, gold, yellow) !important;
+            color: darkred;
+            font-size: 18px;
+            width: 100px;
+        }
+
+        .name-cell {
+            background: linear-gradient(45deg, lightgreen, lime) !important;
+            color: darkblue;
+            font-size: 20px;
+            font-family: 'Arial Black';
+        }
+
+        .action-cell {
+            background: linear-gradient(45deg, black, darkgray) !important;
+            padding: 15px;
+        }
+
+        .edit-btn {
+            background: linear-gradient(45deg, orange, yellow);
+            color: black;
+            padding: 12px 18px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 5px 5px 10px black;
+            display: inline-block;
+            border: 3px solid purple;
+        }
+
+        .delete-btn {
+            background: linear-gradient(45deg, red, darkred);
+            color: white;
+            padding: 12px 18px;
+            margin: 5px;
+            border: 3px solid maroon;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px black;
+        }
+
+        .no-data {
+            text-align: center;
+            font-size: 30px;
+            color: red;
+            font-family: 'Impact';
+            text-shadow: 2px 2px yellow;
+            margin: 50px;
+            padding: 50px;
+            background: linear-gradient(red, yellow);
+            border: 10px solid black;
+            border-radius: 50px;
+            animation: shake 3s infinite;
+        }
+
+        tr:hover {
+            transform: scale(1.02);
+            filter: brightness(1.2);
+        }
+
+        .edit-btn:hover, .delete-btn:hover {
+            transform: scale(1.1);
+            animation: bounce 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">⭐🎨 EĞİTİM ÖZELLİKLERİ 🎨⭐</h1>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="/Feature/Create" class="add-button">➕✨ YENİ ÖZELLİK EKLE ✨➕</a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">🆔 ID</th>
+                        <th>🏷️ ÖZELLİK ADI</th>
+                        <th style="width: 300px;">⚡ İŞLEMLER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var feature in Model)
+                    {
+                        <tr>
+                            <td class="id-cell">
+                                <strong>@feature.Id</strong>
+                            </td>
+                            <td class="name-cell">
+                                @feature.Name
+                            </td>
+                            <td class="action-cell">
+                                <a href="/Feature/Edit/@feature.Id" class="edit-btn">✏️ DÜZENLE</a>
+                                <form method="post" action="/Feature/Delete/@feature.Id" style="display: inline;">
+                                    <button type="submit" onclick="return confirm('🗑️ Bu özelliği silmek istediğinizden emin misiniz? 🗑️')" class="delete-btn">🗑️ SİL</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="no-data">
+            😢 HİÇ ÖZELLİK BULUNAMADI! 😢
+            <br>
+            <span style="font-size: 20px; color: blue;">Lütfen yeni özellik ekleyin!</span>
+        </div>
+    }
+</body>
+</html>

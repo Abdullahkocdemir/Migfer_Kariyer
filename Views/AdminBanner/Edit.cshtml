@@ -1,0 +1,355 @@
+﻿@model Migfer_Kariyer.Entities.Banner
+@{
+    ViewData["Title"] = "Banner Düzenle";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banner Düzenle</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .back-link {
+            margin-bottom: 30px;
+        }
+
+            .back-link a {
+                color: #00ffff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .back-link a:hover {
+                    color: #ff00ff;
+                    text-shadow: 0 0 10px #ff00ff;
+                }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @@keyframes glow {
+            from
+
+        {
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        to {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        }
+
+        .info-box strong {
+            color: #00ffff;
+        }
+
+        .info-box ul {
+            margin: 10px 0 0 20px;
+            color: #cccccc;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        input[type="text"], input[type="url"], textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+            input:focus, textarea:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            input::placeholder, textarea::placeholder {
+                color: #cccccc;
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px #ffaa00;
+            }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+            .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #6c757d;
+            }
+
+        .actions {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #00ffff;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .validation-summary-errors {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4040;
+            color: #ff4040;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .text-danger {
+            color: #ff4040 !important;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ffaa00;
+            animation: blink 1s infinite;
+        }
+
+        @@keyframes blink {
+            0%, 50%
+
+        {
+            opacity: 1;
+        }
+
+        51%, 100% {
+            opacity: 0.3;
+        }
+
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+
+        <div class="back-link">
+            <a asp-action="Index">
+                ← Banner Listesine Dön
+            </a>
+        </div>
+
+        <h1>
+            <span>✏️ BANNER DÜZENLE</span>
+        </h1>
+
+        <div class="info-box">
+            <strong>💡 DÜZENLEME MODU:</strong>
+            <ul>
+                <li><strong>Mevcut Başlık:</strong> "@Model.Başlık"</li>
+                <li><strong>Mevcut Açıklama:</strong> "@Model.KüçükAçıklama"</li>
+                <li><strong>Mevcut Video URL:</strong> @(string.IsNullOrEmpty(Model.VideoUrl) ? "Belirtilmemiş" : Model.VideoUrl)</li>
+                <li><small>Alanları değiştirerek banner'ı güncelleyebilirsiniz.</small></li>
+            </ul>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <strong>⚠️ LÜTFEN AŞAĞIDAKİ HATALARI DÜZELTİN:</strong>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Temel Bilgiler -->
+            <div class="form-section">
+                <div class="section-title">🎬 BANNER BİLGİLERİ</div>
+
+                <div class="form-group">
+                    <label asp-for="Başlık">📝 Başlık</label>
+                    <input asp-for="Başlık" placeholder="Banner başlığını girin (max 30 karakter)" maxlength="30" />
+                    <span asp-validation-for="Başlık" class="text-danger"></span>
+                    <div class="help-text">Ana sayfada büyük harflerle gösterilecek başlık</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="KüçükAçıklama">📋 Küçük Açıklama</label>
+                    <input asp-for="KüçükAçıklama" placeholder="Kısa açıklama girin (max 30 karakter)" maxlength="30" />
+                    <span asp-validation-for="KüçükAçıklama" class="text-danger"></span>
+                    <div class="help-text">Başlığın altında görünecek kısa açıklama</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="VideoUrl">🎥 Video URL</label>
+                    <input asp-for="VideoUrl" type="url" placeholder="https://www.youtube.com/watch?v=... veya diğer video linki" />
+                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                    <div class="help-text">YouTube, Vimeo veya herhangi bir video platformu linki ekleyebilirsiniz</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">💾 GÜNCELLE</button>
+                <a asp-action="Index" class="btn btn-secondary">❌ İPTAL</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Karakter sayacı
+        document.querySelectorAll('input[maxlength]').forEach(input => {
+            const maxLength = input.getAttribute('maxlength');
+            const helpText = input.parentElement.querySelector('.help-text');
+
+            if (helpText) {
+                const originalText = helpText.textContent;
+
+                // Sayfa yüklendiğinde mevcut değeri göster
+                updateCounter();
+
+                input.addEventListener('input', updateCounter);
+
+                function updateCounter() {
+                    const remaining = maxLength - input.value.length;
+                    helpText.textContent = `${originalText} (${remaining} karakter kaldı)`;
+
+                    if (remaining < 10) {
+                        helpText.style.color = '#ff4040';
+                    } else {
+                        helpText.style.color = '#cccccc';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

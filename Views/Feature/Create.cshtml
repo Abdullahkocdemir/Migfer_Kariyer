@@ -1,0 +1,157 @@
+﻿<!-- Views/Feature/Create.cshtml - KORKUNÇ ÖZELLİK EKLEME FORMU -->
+@model Migfer_Kariyer.Entities.Feature
+
+<h1 style="font-family: Papyrus; font-size: 45px; color: purple; text-align: center; text-shadow: 5px 5px orange, -5px -5px lime; background: linear-gradient(45deg, red, blue, green, yellow, purple, pink); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: wiggle 2s infinite; margin: 30px; padding: 20px; border: 10px dotted rainbow;">
+    ✨🎨 YENİ ÖZELLİK EKLEME FORMU 🎨✨
+</h1>
+
+<div style="background: radial-gradient(circle at center, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff); padding: 40px; margin: 30px; border: 15px ridge gold; border-radius: 50px; box-shadow: 0 0 50px purple; animation: glow 3s infinite alternate;">
+
+    <form asp-action="Create" style="background: rgba(255,255,255,0.9); padding: 30px; border-radius: 25px; border: 8px double black;">
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Ctext y='15' font-size='20'%3E⭐✨🌟💫⭐✨🌟💫⭐✨🌟💫⭐✨🌟💫⭐✨🌟💫%3C/text%3E%3C/svg%3E" style="width: 100%; height: 40px;" />
+        </div>
+
+        <table border="8" cellpadding="20" cellspacing="5" style="width: 100%; background: linear-gradient(45deg, pink, cyan, yellow, lime); border-collapse: separate; border-spacing: 15px; border-radius: 20px;">
+
+            <tr>
+                <td style="background: linear-gradient(135deg, orange, red); color: white; font-weight: bold; font-size: 20px; text-align: center; width: 250px; border: 5px solid black; border-radius: 15px; text-shadow: 2px 2px black; font-family: Impact; vertical-align: middle;">
+                    🏷️ ÖZELLİK ADI:
+                </td>
+                <td style="background: linear-gradient(135deg, lightblue, white); padding: 20px; border: 5px solid navy; border-radius: 15px;">
+                    <label asp-for="Name" style="font-size: 16px; color: darkblue; font-weight: bold; margin-bottom: 10px; display: block;">✨ Özellik ismini girin:</label>
+
+                    <input asp-for="Name" class="form-control" style="width: 100%; padding: 15px; font-size: 18px; border: 5px solid rainbow; border-radius: 15px; background: linear-gradient(45deg, lightyellow, lightgreen); color: darkblue; font-weight: bold; box-shadow: inset 0 0 10px purple;" placeholder="Örnek: Çok Satan, Premium, Yeni, Popüler..." />
+
+                    <span asp-validation-for="Name" style="color: red; font-weight: bold; font-size: 16px; text-shadow: 1px 1px yellow; display: block; margin-top: 10px; background: black; padding: 5px; border-radius: 10px;"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="background: linear-gradient(45deg, gold, silver); padding: 20px; text-align: center; border: 5px solid black; border-radius: 15px;">
+                    <div style="font-size: 18px; color: darkred; font-weight: bold; margin-bottom: 15px; font-family: 'Arial Black';">
+                        💡 ÖZELLİK ÖRNEKLERİ:
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                        <span style="background: red; color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold;">🔥 Çok Satan</span>
+                        <span style="background: gold; color: black; padding: 8px 15px; border-radius: 20px; font-weight: bold;">👑 Premium</span>
+                        <span style="background: green; color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold;">🆕 Yeni</span>
+                        <span style="background: purple; color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold;">⭐ Popüler</span>
+                        <span style="background: orange; color: black; padding: 8px 15px; border-radius: 20px; font-weight: bold;">💎 Özel</span>
+                        <span style="background: blue; color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold;">🎓 Sertifikalı</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin-top: 40px; background: black; padding: 25px; border-radius: 30px; border: 10px solid gold;">
+            <input type="submit" value="💾✨ ÖZELLİK KAYDET ✨💾" style="background: linear-gradient(45deg, lime, cyan); color: black; padding: 20px 40px; font-size: 24px; font-weight: bold; border: 8px solid purple; border-radius: 25px; cursor: pointer; margin: 15px; box-shadow: 0 0 20px pink; text-shadow: 2px 2px white; font-family: 'Arial Black'; animation: pulse 2s infinite;" />
+
+            <a href="/Feature" style="background: linear-gradient(45deg, red, orange); color: white; padding: 20px 40px; font-size: 24px; font-weight: bold; border: 8px solid maroon; border-radius: 25px; text-decoration: none; margin: 15px; display: inline-block; box-shadow: 0 0 20px red; text-shadow: 2px 2px black; font-family: 'Arial Black';">❌🔙 İPTAL ET 🔙❌</a>
+        </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 30px; font-size: 16px; color: darkblue; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 20px; border: 3px dashed purple;">
+        <strong style="color: red;">⚠️ NOT:</strong> Özellik adı boş bırakılamaz! En az 2 karakter olmalıdır.
+    </div>
+</div>
+
+<script>
+    // Sayfa yüklendiğinde rastgele arka plan rengi
+    document.addEventListener('DOMContentLoaded', function() {
+        setInterval(function() {
+            document.body.style.background = 'linear-gradient(' +
+                Math.floor(Math.random() * 360) + 'deg, ' +
+                '#' + Math.floor(Math.random()*16777215).toString(16) + ', ' +
+                '#' + Math.floor(Math.random()*16777215).toString(16) + ', ' +
+                '#' + Math.floor(Math.random()*16777215).toString(16) + ')';
+        }, 3000);
+    });
+</script>
+
+<style>
+    @@keyframes wiggle {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: rotate(-3deg) scale(1.05);
+        }
+
+        75% {
+            transform: rotate(3deg) scale(0.95);
+        }
+    }
+
+    @@keyframes glow {
+        0% {
+            box-shadow: 0 0 50px purple, 0 0 100px pink;
+        }
+
+        100% {
+            box-shadow: 0 0 100px cyan, 0 0 150px lime;
+        }
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    body {
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff6b6b' fill-opacity='0.1'%3E%3Cpolygon points='50 0 60 35 100 35 70 57 80 91 50 70 20 91 30 57 0 35 40 35'/%3E%3C/g%3E%3C/svg%3E");
+        animation: rainbow-bg 8s infinite;
+    }
+
+    @@keyframes rainbow-bg {
+        0% {
+            filter: hue-rotate(0deg) saturate(1);
+        }
+
+        25% {
+            filter: hue-rotate(90deg) saturate(1.5);
+        }
+
+        50% {
+            filter: hue-rotate(180deg) saturate(2);
+        }
+
+        75% {
+            filter: hue-rotate(270deg) saturate(1.5);
+        }
+
+        100% {
+            filter: hue-rotate(360deg) saturate(1);
+        }
+    }
+
+    input:focus {
+        animation: shake-input 0.5s infinite;
+        box-shadow: 0 0 30px red, 0 0 60px blue !important;
+    }
+
+    @@keyframes shake-input {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-5px);
+        }
+
+        75% {
+            transform: translateX(5px);
+        }
+    }
+</style>
